@@ -6,7 +6,7 @@
 Sistema de Gestão de Empréstimo de Projetores – CCT/Unifor
 
 ### 1.2 Contexto
-Atualmente, professores do CCT da Universidade de Fortaleza precisam se deslocar até uma sala específica para retirar projetores quando necessitam utilizá-los em aula. Após o uso, o professor também precisa devolver o equipamento presencialmente.
+Atualmente, professores do CCT da Universidade de Fortaleza precisam de projetores para suas aulas, mas o modelo de locação atual é ineficiente.
 
 A solução proposta consiste em centralizar o atendimento por meio de um funcionário responsável pela sala de projetores. O professor informa suas credenciais, solicita o equipamento, e o funcionário realiza a entrega, o registro do empréstimo e posteriormente registra a devolução.
 
