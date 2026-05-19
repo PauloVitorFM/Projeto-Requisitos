@@ -46,7 +46,7 @@ O processo vigente para uso de projetores no CCT funciona da seguinte forma:
 
 ### 1.3 Solução proposta (TO-BE)
 
-Instalação de **projetores fixos no teto de cada sala**, controlados remotamente via sistema IoT integrado à base de credenciais institucional da UNIFOR. O professor reserva o acesso à sala (não ao equipamento), e o projetor é ativado e desativado automaticamente.
+Instalação de **projetores fixos no teto de cada sala**, controlados remotamente via sistema IoT integrado à base de credenciais institucional da UNIFOR. O professor reserva o acesso à sala (não ao equipamento), e o projetor é ativado e desativado automaticamente. E para manter a integridade do projetor, o mesmo deve ficar dentro de uma "gaiola" com barras metálicas.
 
 ---
 
