@@ -153,54 +153,6 @@ Coordenacao --> (Gerar relatórios)
 
 ---
 
-## 6.2 Diagrama de Classes
-
-```plantuml
-@startuml
-
-class Professor {
-  id
-  nome
-  matricula
-}
-
-class Projetor {
-  id
-  modelo
-  status
-}
-
-class Emprestimo {
-  dataRetirada
-  dataDevolucao
-}
-
-Professor "1" -- "0..*" Emprestimo
-Projetor "1" -- "0..*" Emprestimo
-
-@enduml
-```
-
----
-
-## 6.3 Diagrama de Sequência – Empréstimo
-
-```plantuml
-@startuml
-actor Professor
-participant Funcionario
-participant Sistema
-
-Professor -> Funcionario: Solicita projetor
-Funcionario -> Sistema: Consulta disponibilidade
-Sistema --> Funcionario: Lista de projetores
-Funcionario -> Sistema: Registra empréstimo
-Sistema --> Funcionario: Confirmação
-@enduml
-```
-
----
-
 # 7. Considerações Finais
 
 A solução proposta busca tornar o processo de empréstimo de projetores mais organizado, seguro e rastreável. O sistema reduz a dependência de controles manuais e melhora a eficiência operacional do CCT/Unifor.
