@@ -2,8 +2,6 @@
 
 ***Sistema de Empréstimo de Projetores — CCT/Unifor***
 
-> Use este template para registrar requisitos não funcionais da solução. Preencha as descrições com critérios objetivos, verificáveis e alinhados ao contexto do projeto.
-
 ## Histórico de Versões
 
 <!-- markdownlint-disable MD060 -->
