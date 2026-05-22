@@ -62,11 +62,11 @@ O funcionário seleciona a opção "Registrar Devolução" na tela inicial do si
 
 ### P3. Funcionário busca o empréstimo ativo
 
-O funcionário informa o nome do professor ou o identificador do projetor (número de patrimônio) no campo de busca.
+O funcionário informa o nome do professor ou o número de identificação (ou código de barras) do projetor no campo de busca.
 
 ### P4. Sistema localiza o empréstimo ativo correspondente
 
-O sistema busca no banco de dados o empréstimo ativo vinculado ao professor ou ao projetor informado e exibe os detalhes: nome do professor, matrícula, disciplina, projetor, data e hora do empréstimo.
+O sistema busca no banco de dados o empréstimo ativo vinculado ao professor ou ao projetor informado e exibe os detalhes: nome do professor, matrícula, disciplina, número de identificação e código de barras do projetor, data e hora do empréstimo.
 
 ### P5. Funcionário confirma os dados da devolução
 
@@ -88,7 +88,7 @@ O sistema exibe uma mensagem de confirmação com os dados da devolução regist
 
 #### A1.1. No passo P4, o sistema localiza mais de um empréstimo ativo vinculado ao professor informado (professor com múltiplos projetores emprestados).
 
-#### A1.2. O sistema exibe a lista de empréstimos ativos do professor, com os dados de cada projetor (identificador, data do empréstimo).
+#### A1.2. O sistema exibe a lista de empréstimos ativos do professor, com os dados de cada projetor (número de identificação, código de barras e data do empréstimo).
 
 #### A1.3. O funcionário seleciona o empréstimo correspondente ao projetor que está sendo devolvido fisicamente.
 
@@ -104,7 +104,7 @@ O sistema exibe uma mensagem de confirmação com os dados da devolução regist
 
 #### E1.2. O sistema exibe a mensagem: *"Nenhum empréstimo ativo encontrado para os dados informados. Verifique o nome do professor ou o número do projetor."*
 
-#### E1.3. O funcionário solicita ao professor que confirme seu nome ou verifica o número de patrimônio no projetor físico e realiza nova busca.
+#### E1.3. O funcionário solicita ao professor que confirme seu nome ou verifica o número de identificação e o código de barras no projetor físico e realiza nova busca.
 
 #### E1.4. Se o empréstimo for encontrado, o caso de uso retorna ao passo P4. Se não for encontrado, o funcionário deve registrar a ocorrência manualmente para investigação posterior, e o caso de uso é encerrado sem alteração no banco de dados.
 
@@ -154,7 +154,7 @@ Não se aplica.
 ### IV1. Tela de Registrar Devolução
 
 A tela deve apresentar:
-- Campo de busca por nome do professor ou número de patrimônio do projetor (com botão "Buscar").
+- Campo de busca por nome do professor, número de identificação ou código de barras do projetor (com botão "Buscar").
 - Área de exibição dos dados do empréstimo ativo: nome do professor, matrícula, disciplina, projetor e data/hora do empréstimo.
 - Botão "Confirmar Devolução".
 - Área de confirmação final com resumo da devolução e duração total do empréstimo.

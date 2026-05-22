@@ -20,7 +20,7 @@ Registrar Empréstimo de Projetor
 
 ## 2. Objetivo
 
-Permitir que o funcionário do CCT registre o empréstimo de um projetor a um professor, realizando a identificação automática do professor a partir do seu nome e o preenchimento automático do formulário virtual de empréstimo.
+Permitir que o funcionário do CCT registre o empréstimo de um projetor a um professor, realizando a identificação do professor por meio de leitura biométrica (digital) e o preenchimento automático do formulário virtual de empréstimo, com envio de notificação por email ao professor após a confirmação do registro.
 
 ---
 
@@ -38,7 +38,9 @@ Concreto.
 
 ### 4.2 Secundário
 
-**Sistema Acadêmico da Unifor** — fornece automaticamente os dados cadastrais do professor (matrícula, disciplinas lecionadas no semestre vigente) a partir do nome informado.
+**Leitora Biométrica** — equipamento responsável por capturar a digital do professor e transmitir os dados ao sistema para identificação.
+
+**Sistema Acadêmico da Unifor** — fornece automaticamente os dados cadastrais do professor (nome completo, matrícula, disciplinas lecionadas no semestre vigente) a partir do identificador biométrico obtido.
 
 ---
 
@@ -52,21 +54,21 @@ Concreto.
 
 ## 6. Fluxo Principal
 
-### P1. Professor solicita um projetor ao funcionário
+### P1. Professor solicita um projetor e realiza a leitura biométrica
 
-O professor se dirige ao setor de empréstimos do CCT e informa verbalmente seu nome ao funcionário.
+O professor se dirige ao setor de empréstimos do CCT e coloca sua digital na leitora biométrica disponível no balcão de atendimento.
 
-### P2. Funcionário acessa a tela de novo empréstimo
+### P2. Leitora biométrica captura e transmite os dados
+
+A leitora biométrica captura a digital do professor e a transmite ao sistema de empréstimos.
+
+### P3. Funcionário acessa a tela de novo empréstimo
 
 O funcionário seleciona a opção "Novo Empréstimo" na tela inicial do sistema.
 
-### P3. Funcionário informa o nome do professor
+### P4. Sistema identifica o professor e exibe seus dados
 
-O funcionário digita o nome do professor no campo de busca do formulário de empréstimo.
-
-### P4. Sistema localiza o professor na base acadêmica
-
-O sistema consulta o Sistema Acadêmico da Unifor e retorna os dados do professor correspondente ao nome informado: nome completo, matrícula e disciplinas lecionadas no semestre vigente.
+O sistema consulta o Sistema Acadêmico da Unifor com base no identificador biométrico e retorna os dados do professor: nome completo, matrícula e disciplinas lecionadas no semestre vigente.
 
 ### P5. Sistema preenche automaticamente o formulário virtual
 
@@ -74,69 +76,61 @@ O sistema exibe o formulário de empréstimo com os campos já preenchidos: nome
 
 ### P6. Funcionário confirma os dados e seleciona o projetor
 
-O funcionário verifica os dados exibidos com o professor, seleciona um projetor disponível na lista apresentada pelo sistema e confirma o empréstimo.
+O funcionário verifica os dados exibidos com o professor, seleciona um projetor disponível na lista apresentada pelo sistema — identificado por número e código de barras — e confirma o empréstimo.
 
 ### P7. Sistema registra o empréstimo
 
 O sistema salva o registro do empréstimo no banco de dados, associando o projetor selecionado ao professor, e marca o equipamento como "emprestado".
 
-### P8. Sistema exibe confirmação do empréstimo
+### P8. Sistema envia email de confirmação ao professor
+
+O sistema envia automaticamente um email ao endereço institucional do professor informando que um projetor foi emprestado em seu nome, especificando o número de identificação do projetor, a data e o horário do empréstimo.
+
+### P9. Sistema exibe confirmação do empréstimo
 
 O sistema exibe uma mensagem de confirmação com os dados do empréstimo registrado (professor, projetor, data e hora).
 
-### P9. Funcionário entrega o projetor ao professor
+### P10. Funcionário entrega o projetor ao professor e confirma no sistema
 
-O funcionário busca o projetor correspondente e o entrega ao professor, concluindo o atendimento.
+O funcionário busca o projetor correspondente, o entrega ao professor e confirma a entrega no sistema, concluindo o atendimento.
 
 ---
 
 ## 7. Fluxos Alternativos
 
-### A1. Nome do professor retorna mais de um resultado
+### A1. Professor possui empréstimo em aberto
 
-#### A1.1. No passo P4, o sistema encontra mais de um professor com o nome informado.
+#### A1.1. No passo P4, após identificar o professor, o sistema verifica que ele possui um ou mais projetores emprestados e ainda não devolvidos.
 
-#### A1.2. O sistema exibe uma lista com os resultados encontrados, contendo nome completo e matrícula de cada professor.
+#### A1.2. O sistema exibe um alerta informando os detalhes do(s) empréstimo(s) em aberto (número do projetor, data do empréstimo).
 
-#### A1.3. O funcionário seleciona o professor correto na lista, confirmando com o próprio professor.
+#### A1.3. O funcionário decide, conforme critério institucional, se prossegue ou cancela o novo empréstimo.
 
-#### A1.4. O caso de uso retorna ao passo P5.
-
----
-
-### A2. Professor possui empréstimo em aberto
-
-#### A2.1. No passo P4, após localizar o professor, o sistema identifica que ele possui um ou mais projetores emprestados e ainda não devolvidos.
-
-#### A2.2. O sistema exibe um alerta informando os detalhes do(s) empréstimo(s) em aberto (projetor, data do empréstimo).
-
-#### A2.3. O funcionário decide, conforme critério institucional, se prossegue ou cancela o novo empréstimo.
-
-#### A2.4. Se o funcionário decidir prosseguir, o caso de uso retorna ao passo P5. Se cancelar, o caso de uso é encerrado sem registro.
+#### A1.4. Se o funcionário decidir prosseguir, o caso de uso retorna ao passo P5. Se cancelar, o caso de uso é encerrado sem registro.
 
 ---
 
-### A3. Estoque com apenas um projetor disponível
+### A2. Estoque com apenas um projetor disponível
 
-#### A3.1. No passo P6, o sistema exibe apenas um projetor disponível na lista.
+#### A2.1. No passo P6, o sistema exibe apenas um projetor disponível na lista.
 
-#### A3.2. O funcionário confirma o empréstimo sem necessidade de seleção adicional.
+#### A2.2. O funcionário confirma o empréstimo sem necessidade de seleção adicional.
 
-#### A3.3. O caso de uso segue para o passo P7.
+#### A2.3. O caso de uso segue para o passo P7.
 
 ---
 
 ## 8. Fluxos de Exceção
 
-### E1. Professor não encontrado na base acadêmica
+### E1. Digital não reconhecida pelo sistema biométrico
 
-#### E1.1. No passo P4, o sistema não localiza nenhum professor com o nome informado.
+#### E1.1. No passo P2, a leitora biométrica não consegue identificar a digital do professor.
 
-#### E1.2. O sistema exibe a mensagem: *"Nenhum professor encontrado com esse nome. Tente usar apenas o sobrenome ou verifique a grafia."*
+#### E1.2. O sistema exibe a mensagem: *"Digital não reconhecida. Solicite ao professor que reposicione o dedo na leitora."*
 
-#### E1.3. O funcionário solicita ao professor que confirme seu nome completo ou matrícula.
+#### E1.3. O funcionário orienta o professor a tentar novamente. Se a releitura for bem-sucedida, o caso de uso retorna ao passo P3.
 
-#### E1.4. O funcionário realiza uma nova busca. Se o professor for encontrado, o caso de uso retorna ao passo P4. Se não for encontrado após nova tentativa, o empréstimo não pode ser registrado e o funcionário encerra o atendimento sem registro.
+#### E1.4. Após três tentativas sem sucesso, o empréstimo não pode ser registrado e o funcionário encerra o atendimento sem registro.
 
 ---
 
@@ -152,7 +146,7 @@ O funcionário busca o projetor correspondente e o entrega ao professor, conclui
 
 ### E3. Falha na integração com o Sistema Acadêmico
 
-#### E3.1. No passo P4, o sistema não consegue se comunicar com o Sistema Acadêmico da Unifor.
+#### E3.1. No passo P4, o sistema não consegue se comunicar com o Sistema Acadêmico da Unifor para recuperar os dados do professor identificado biometricamente.
 
 #### E3.2. O sistema exibe a mensagem: *"Não foi possível consultar a base acadêmica. Tente novamente em instantes."*
 
@@ -172,19 +166,30 @@ O funcionário busca o projetor correspondente e o entrega ao professor, conclui
 
 ---
 
+### E5. Falha no envio do email de confirmação
+
+#### E5.1. No passo P8, o sistema não consegue enviar o email de confirmação ao professor.
+
+#### E5.2. O sistema registra a falha internamente e exibe um aviso ao funcionário: *"Não foi possível enviar o email de confirmação ao professor."*
+
+#### E5.3. O empréstimo permanece registrado normalmente. O funcionário informa verbalmente ao professor sobre a impossibilidade do envio de email e o caso de uso segue para o passo P9.
+
+---
+
 ## 9. Pós-condições
 
 - O empréstimo do projetor está registrado no banco de dados com todos os dados associados (professor, matrícula, disciplina, projetor, data e hora).
 - O projetor emprestado está marcado como "indisponível" no sistema.
 - Os dados do empréstimo estão disponíveis para consulta nos relatórios gerenciais.
+- Um email de confirmação foi enviado ao professor com os dados do empréstimo (número do projetor, data e hora).
 
 ---
 
 ## 10. Requisitos Não Funcionais
 
-- O sistema deve localizar e exibir os dados do professor em no máximo **2 segundos** após a busca (RNF 1.1.1).
-- O formulário deve ser preenchido automaticamente em menos de **1 segundo** após a identificação do professor (RNF 1.1.1).
-- O fluxo completo de registro de empréstimo deve ser concluído em no máximo **4 interações** na interface, após a digitação do nome (RNF 1.6.3).
+- O sistema deve identificar o professor a partir da leitura biométrica e exibir seus dados em no máximo **3 segundos** após a captura da digital (RNF 1.1.1).
+- O formulário deve ser preenchido automaticamente em menos de **1 segundo** após a identificação biométrica do professor (RNF 1.1.1).
+- O fluxo completo de registro de empréstimo deve ser concluído em no máximo **4 interações** na interface, após a leitura biométrica (RNF 1.6.3).
 - A operação de salvamento do empréstimo deve ser atômica — ou é salva integralmente ou não altera o banco de dados (RNF 1.9.3).
 
 ---
@@ -193,7 +198,7 @@ O funcionário busca o projetor correspondente e o entrega ao professor, conclui
 
 ### PE1. Registrar Devolução de Projetor
 
-Caso o funcionário identifique, durante o atendimento (passo P6), que o professor ainda possui um projetor em aberto, o sistema pode direcionar para o caso de uso **CDU-02 — Registrar Devolução de Projetor**, permitindo encerrar o empréstimo anterior antes de registrar o novo.
+Caso o funcionário identifique, durante o atendimento (passo A1), que o professor ainda possui um projetor em aberto, o sistema pode direcionar para o caso de uso **CDU-02 — Registrar Devolução de Projetor**, permitindo encerrar o empréstimo anterior antes de registrar o novo.
 
 ---
 
@@ -208,12 +213,12 @@ Caso o funcionário identifique, durante o atendimento (passo P6), que o profess
 ### IV1. Tela de Novo Empréstimo
 
 A tela deve apresentar:
-- Campo de busca por nome do professor (com botão "Buscar" e suporte à tecla Enter).
-- Área de exibição dos dados encontrados: nome completo, matrícula e disciplina(s).
+- Indicador de status da leitora biométrica (aguardando leitura / leitura concluída / erro).
+- Área de exibição dos dados identificados via biometria: nome completo, matrícula e disciplina(s).
 - Botão de confirmação de dados ("Confirmar Professor").
-- Lista de projetores disponíveis para seleção.
+- Lista de projetores disponíveis para seleção, exibindo número de identificação e código de barras de cada equipamento.
 - Botão "Registrar Empréstimo".
-- Área de confirmação final com resumo do empréstimo registrado.
+- Área de confirmação final com resumo do empréstimo registrado e indicação de envio do email ao professor.
 
 Navegabilidade: tela acessível a partir do menu principal ("Novo Empréstimo"). Após a confirmação, o sistema retorna automaticamente à tela inicial.
 
@@ -221,9 +226,10 @@ Navegabilidade: tela acessível a partir do menu principal ("Novo Empréstimo").
 
 ## 14. Observações
 
-- O professor **não interage diretamente** com o sistema; toda operação é mediada pelo funcionário.
-- Futuramente, pode ser avaliada a possibilidade de busca por matrícula do professor como alternativa ao nome, para casos de homônimos frequentes.
+- O professor **não interage diretamente** com o sistema; toda operação é mediada pelo funcionário. A única interação direta do professor com o equipamento é a leitura da digital na leitora biométrica.
+- A leitora biométrica deve estar cadastrada e integrada ao sistema antes da operação. Falhas no equipamento devem ser reportadas ao suporte técnico do CCT.
 - O campo "Disciplina" deve refletir apenas as disciplinas do semestre vigente, conforme retornado pelo Sistema Acadêmico.
+- O email de confirmação deve ser enviado ao endereço institucional do professor registrado na base acadêmica da Unifor.
 
 ---
 

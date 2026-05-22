@@ -6,7 +6,7 @@
 
 * **Identificador:** RN1 — Professor deve estar cadastrado na base acadêmica para realizar empréstimo
 
-* **Descrição:** O sistema somente permite o registro de um empréstimo quando o professor solicitante é localizado na base acadêmica da Unifor. Caso o nome informado não retorne nenhum resultado na consulta ao Sistema Acadêmico, o empréstimo não pode ser registrado e o atendimento é encerrado sem movimentação no banco de dados.
+* **Descrição:** O sistema somente permite o registro de um empréstimo quando o professor solicitante é identificado com sucesso por meio da leitura biométrica (digital). Caso a digital não seja reconhecida pelo sistema após três tentativas consecutivas, o empréstimo não pode ser registrado e o atendimento é encerrado sem movimentação no banco de dados.
 
 ---
 
@@ -30,7 +30,7 @@
 
 * **Identificador:** RN4 — Formulário de empréstimo deve ser preenchido automaticamente pelo sistema
 
-* **Descrição:** Após a identificação do professor na base acadêmica, o sistema deve preencher automaticamente os campos do formulário virtual de empréstimo: nome completo, matrícula, disciplina(s) lecionadas no semestre vigente e data/hora da solicitação. O funcionário não deve preencher manualmente esses campos. O preenchimento automático deve ocorrer em menos de 1 segundo após a localização do professor.
+* **Descrição:** Após a identificação biométrica bem-sucedida do professor, o sistema deve preencher automaticamente os campos do formulário virtual de empréstimo: nome completo, matrícula, disciplina(s) lecionadas no semestre vigente e data/hora da solicitação. O funcionário não deve preencher manualmente esses campos. O preenchimento automático deve ocorrer em menos de 1 segundo após a identificação biométrica.
 
 ---
 
@@ -58,17 +58,33 @@
 
 ---
 
-## RN8. Nome com múltiplos resultados exige seleção explícita pelo funcionário
+## RN8. Cada projetor deve ser identificado por número único e código de barras
 
-* **Identificador:** RN8 — Nome com múltiplos resultados exige seleção explícita pelo funcionário
+* **Identificador:** RN8 — Cada projetor deve ser identificado por número único e código de barras
 
-* **Descrição:** Quando a busca por nome do professor retornar dois ou mais registros na base acadêmica, o sistema deve exibir a lista completa de resultados com nome completo e matrícula de cada professor encontrado. O funcionário deve selecionar explicitamente o professor correto antes de prosseguir com o empréstimo. O sistema não deve assumir automaticamente qual professor foi identificado em caso de ambiguidade.
+* **Descrição:** Cada projetor cadastrado no sistema deve possuir um número de identificação único e um código de barras para rastreamento. A seleção do projetor durante o empréstimo e a sua identificação na devolução devem ser realizadas com base nesses identificadores, garantindo precisão no controle do equipamento e eliminando ambiguidades no registro de movimentações.
 
 ---
 
-## RN9. Estoque abaixo de 20% deve gerar alerta ao administrador
+## RN9. Sistema deve enviar email de confirmação ao professor após registro do empréstimo
 
-* **Identificador:** RN9 — Estoque abaixo de 20% deve gerar alerta ao administrador
+* **Identificador:** RN9 — Sistema deve enviar email de confirmação ao professor após registro do empréstimo
+
+* **Descrição:** Após o registro bem-sucedido de um empréstimo, o sistema deve enviar automaticamente um email ao endereço institucional do professor, informando que um projetor foi emprestado em seu nome. O email deve especificar o número de identificação do projetor e a data e horário do empréstimo. A falha no envio do email não deve impedir o registro do empréstimo, mas deve ser registrada internamente pelo sistema para fins de auditoria.
+
+---
+
+## RN10. Acesso ao módulo gerencial é restrito ao coordenador do CCT
+
+* **Identificador:** RN10 — Acesso ao módulo gerencial é restrito ao coordenador do CCT
+
+* **Descrição:** O acesso ao módulo de relatórios e métricas gerenciais é restrito ao coordenador do CCT e ao administrador do sistema. Funcionários do setor de empréstimos não devem ter acesso a essas informações. O sistema deve diferenciar os perfis de acesso — funcionário e coordenador — durante a autenticação, habilitando o módulo de relatórios apenas para o perfil de coordenador.
+
+---
+
+## RN11. Estoque abaixo de 20% deve gerar alerta ao administrador
+
+* **Identificador:** RN11 — Estoque abaixo de 20% deve gerar alerta ao administrador
 
 * **Descrição:** O sistema deve monitorar continuamente a proporção de projetores disponíveis em relação ao total cadastrado. Quando a quantidade de projetores com status "disponível" for igual ou inferior a 20% do total de projetores cadastrados no CCT, o sistema deve gerar um alerta automático ao administrador do sistema, possibilitando ação preventiva antes que o estoque se esgote completamente.
 

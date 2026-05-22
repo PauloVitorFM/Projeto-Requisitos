@@ -25,7 +25,7 @@ Capacidade da solução operar no tempo, rendimento e recursos definidos.
 
 #### 1.1.1. Comportamento temporal
 
-O sistema deve localizar e exibir as credenciais de um professor a partir do seu nome em no máximo **2 segundos**, considerando uma conexão de rede local padrão da instituição. O preenchimento automático do formulário virtual deve ocorrer em menos de **1 segundo** após a identificação do professor.
+O sistema deve identificar o professor a partir da leitura biométrica e retornar os dados correspondentes do Sistema Acadêmico em no máximo **3 segundos** após a captura da digital, considerando uma conexão de rede local padrão da instituição. O preenchimento automático do formulário virtual deve ocorrer em menos de **1 segundo** após a identificação biométrica bem-sucedida.
 
 #### 1.1.2. Capacidade
 
@@ -33,7 +33,7 @@ O sistema deve suportar simultaneamente ao menos **50 funcionários** acessando 
 
 #### 1.1.3. Uso de recursos
 
-O sistema deve operar nos computadores institucionais já disponíveis no CCT, sem exigir aquisição de hardware adicional. O consumo de memória RAM da aplicação não deve ultrapassar **512 MB** em operação normal.
+O sistema deve operar nos computadores institucionais já disponíveis no CCT. A leitora biométrica deve ser o único hardware adicional necessário, conectando-se via USB ou rede local sem instalação de drivers especializados nos computadores. O consumo de memória RAM da aplicação não deve ultrapassar **512 MB** em operação normal.
 
 ---
 
@@ -87,7 +87,7 @@ Capacidade da solução para proteger as informações e garantir operações se
 
 #### 1.4.1. Confidencialidade
 
-O acesso ao sistema deve ser restrito a funcionários autorizados, mediante autenticação com credenciais institucionais. Os dados dos professores (nome, matrícula, disciplinas) não devem ser visíveis a usuários não autenticados.
+O acesso ao sistema deve ser restrito a usuários autorizados — funcionários do setor de empréstimos e coordenador do CCT — mediante autenticação com credenciais institucionais. O coordenador possui perfil de acesso adicional que habilita a consulta ao módulo de relatórios gerenciais. Os dados dos professores (nome, matrícula, disciplinas) não devem ser visíveis a usuários não autenticados.
 
 #### 1.4.2. Integridade
 
@@ -233,7 +233,7 @@ Capacidade da solução de fornecer funções que atendam às necessidades dos u
 
 #### 1.10.1. Completude funcional
 
-O sistema deve cobrir todo o fluxo de empréstimo: identificação do professor, preenchimento automático do formulário virtual, registro do empréstimo, controle de devolução e geração de relatórios gerenciais (professores mais frequentes, disciplinas com maior demanda, horários de pico).
+O sistema deve cobrir todo o fluxo de empréstimo: identificação biométrica do professor, preenchimento automático do formulário virtual, registro do empréstimo, envio de email de confirmação ao professor, controle de devolução e geração de relatórios gerenciais para o coordenador do CCT (professores mais frequentes, disciplinas com maior demanda, horários de pico, tempo médio de empréstimo por equipamento).
 
 #### 1.10.2. Corretude funcional
 
@@ -277,7 +277,7 @@ O sistema será executado nos computadores já disponíveis no setor de emprést
 
 ### 3.2. Operacionais
 
-O sistema será operado exclusivamente pelos funcionários do setor de empréstimos do CCT durante o horário de funcionamento do departamento. Os professores **não** terão acesso direto ao sistema; a interação ocorre sempre mediada pelo funcionário.
+O sistema será operado pelos funcionários do setor de empréstimos e pelo coordenador do CCT durante o horário de funcionamento do departamento. Os professores **não** terão acesso direto ao sistema; sua única interação com o equipamento é a leitura biométrica na leitora física, mediada pelo funcionário. O coordenador acessa o sistema apenas para consultar relatórios gerenciais.
 
 ### 3.3. Desenvolvimento
 
