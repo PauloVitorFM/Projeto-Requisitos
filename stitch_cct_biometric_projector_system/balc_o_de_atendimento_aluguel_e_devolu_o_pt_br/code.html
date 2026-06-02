@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Balcão de Atendimento | Gestão de Projetores Unifor CCT</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .scan-pulse {
+            animation: pulse-gold 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-gold {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.4); }
+            50% { box-shadow: 0 0 0 15px rgba(197, 160, 89, 0); }
+        }
+        .zebra-hover:hover {
+            background-color: rgba(229, 238, 255, 0.5);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#cbdbf5",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed": "#261900",
+                        "on-primary-fixed-variant": "#1f477b",
+                        "on-surface-variant": "#43474f",
+                        "tertiary": "#00231f",
+                        "error-container": "#ffdad6",
+                        "primary": "#001e40",
+                        "tertiary-container": "#003a35",
+                        "surface-container-low": "#eff4ff",
+                        "surface-variant": "#d3e4fe",
+                        "on-background": "#0b1c30",
+                        "secondary-fixed-dim": "#e9c176",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#38ac9f",
+                        "secondary-container": "#fed488",
+                        "primary-fixed-dim": "#a7c8ff",
+                        "surface-bright": "#f8f9ff",
+                        "secondary": "#775a19",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#785a1a",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#003366",
+                        "surface-container": "#e5eeff",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface": "#f8f9ff",
+                        "on-primary-fixed": "#001b3c",
+                        "outline-variant": "#c3c6d1",
+                        "secondary-fixed": "#ffdea5",
+                        "primary-fixed": "#d5e3ff",
+                        "surface-tint": "#3a5f94",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#799dd6",
+                        "tertiary-fixed": "#89f5e7",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#6bd8cb",
+                        "inverse-surface": "#213145",
+                        "surface-container-high": "#dce9ff",
+                        "background": "#f8f9ff",
+                        "outline": "#737780",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-tertiary-fixed": "#00201d",
+                        "inverse-primary": "#a7c8ff",
+                        "on-secondary-fixed-variant": "#5d4201"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-tablet": "24px",
+                        "margin-mobile": "16px",
+                        "container-max": "1440px",
+                        "margin-desktop": "40px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen">
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-margin-desktop h-16 bg-surface-bright border-b border-outline-variant">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-bold text-primary">Gestão de Projetores Unifor CCT</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative">
+<input class="bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 w-64 focus:ring-2 focus:ring-primary outline-none text-body-md" placeholder="Pesquisar..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-xl flex items-center gap-2 font-label-md transition-transform active:scale-95 duration-100 shadow-sm">
+<span class="material-symbols-outlined text-[20px]" data-icon="fingerprint">fingerprint</span>
+                Escanear Biometria
+            </button>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="settings">settings</span>
+<img alt="Avatar do Funcionário" class="w-8 h-8 rounded-full border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDliUazWOhV0eKid6rFAeuYuJIA3jmkdm_fOR_juwSLmMcubGipfCtjZwS9gg1eu7dpK_fJiqDrf-UJvZT9F-BRwJMILky7aPtcbLa8YtClvtu6-JLcI2lQ1kHl2UNsMvb_rrCn8Pgs0Seafudcxh0S5gtVk5VUH8wo3vGQ27nlAeBLViJpadXSKTEPJDU-K-Ub_3npWuokSmBcPmps7VRPG-lOQ6FY5EXgPQ9UMv6r3uAD0u1pUJWnBA1lhO2PshK-aSIzNeXpupA"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-16 bottom-0 w-64 flex flex-col p-4 z-40 bg-surface-container-lowest border-r border-outline-variant">
+<div class="mb-8 px-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary" data-icon="cast">cast</span>
+</div>
+<div>
+<h2 class="font-headline-md text-[16px] font-black text-primary leading-tight">Admin Projetores</h2>
+<p class="text-on-surface-variant text-[12px]">Departamento CCT</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md">Painel de Controle</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="videocam">videocam</span>
+<span class="font-label-md">Inventário</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-bold transition-all active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="handshake">handshake</span>
+<span class="font-label-md">Balcão de Atendimento</span>
+</a>
+</nav>
+<button class="my-6 bg-primary-container text-on-primary-container p-3 rounded-xl font-label-md flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+        Novo Empréstimo
+    </button>
+<div class="pt-4 border-t border-outline-variant space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="info">info</span>
+<span class="font-label-md">Status do Sistema</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md">Ajuda</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-16 min-h-screen">
+<div class="max-w-[1440px] mx-auto p-gutter grid grid-cols-12 gap-gutter">
+<!-- Left Column: Biometric & Rental Process -->
+<div class="col-span-12 lg:col-span-8 space-y-gutter">
+<!-- Biometric Section -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden min-h-[400px] flex flex-col" id="biometric-area">
+<div class="flex-1 flex flex-col items-center justify-center p-12 text-center" id="wait-state">
+<div class="relative mb-8">
+<div class="w-32 h-32 rounded-full border-4 border-primary/10 flex items-center justify-center scan-pulse">
+<span class="material-symbols-outlined text-[64px] text-primary" data-icon="fingerprint" data-weight="fill" style="font-variation-settings: 'FILL' 1;">fingerprint</span>
+</div>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Aguardando Leitura Biométrica</h2>
+<p class="text-on-surface-variant max-w-md mx-auto font-body-lg">Por favor, peça ao professor para posicionar o dedo no scanner para iniciar o processo de autorização do empréstimo.</p>
+<button class="mt-8 px-6 py-3 border border-outline text-outline rounded-lg font-label-md hover:bg-surface-container transition-colors" onclick="simulateScan()">
+                        Simular Leitura (Apenas Dev)
+                    </button>
+</div>
+<!-- Scanned State (Hidden by default) -->
+<div class="hidden flex-1 flex flex-col p-8 bg-surface-container-low/30" id="scanned-state">
+<div class="flex items-start justify-between mb-8">
+<div class="flex gap-6">
+<div class="w-32 h-32 rounded-xl border border-outline-variant overflow-hidden bg-surface-dim">
+<img alt="Retrato do Professor" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSEdUz_WdQ7VXTTu6ByNrSKJusRWRBfdEo0NjI6oZ_tj4wnTBcm8n00UnMz6jRgH2AAePteMSKnmuqeaqvZs6veaTEaAkmiMxs8GhO55caTDsmMBhTMiWyN3JQ_G_kBdAfqlOa8xx1SsM9uSZ7bZhEAUhMv6iBOk3LBxEKX_cw4GYWzGSYwyPUbdh6qJgzg2J6pGzFeYmDULsN-0yu_pBQlc4NtsBT9TdykQMJOeaNpw8xJ627mVMeRhxl2FKpidYRKzR7odJGPGE"/>
+</div>
+<div class="space-y-1">
+<div class="inline-flex items-center px-2 py-1 bg-[#d1e7dd] text-[#0f5132] rounded text-[12px] font-bold uppercase tracking-wider mb-2">
+                                    Autorizado
+                                </div>
+<h2 class="font-headline-lg text-headline-lg text-primary">Dr. Alistair Thorne</h2>
+<p class="text-on-surface-variant font-body-md italic">Departamento de Ciência da Computação</p>
+<p class="text-on-surface font-data-mono mt-2">Matrícula: <span class="text-primary font-bold">U-209411-CCT</span></p>
+</div>
+</div>
+<button class="text-outline hover:text-error transition-colors" onclick="resetScan()">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Projector Selection -->
+<div class="space-y-4">
+<h3 class="font-label-md text-primary uppercase tracking-widest">Selecionar Projetor Disponível</h3>
+<div class="space-y-2 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
+<label class="flex items-center p-4 bg-surface-container-lowest border border-outline-variant rounded-xl cursor-pointer hover:border-primary transition-all group">
+<input class="w-4 h-4 text-primary focus:ring-primary border-outline-variant" name="projector" type="radio"/>
+<div class="ml-4 flex-1">
+<p class="font-bold text-on-surface">Epson Pro G7905U</p>
+<p class="text-[12px] text-on-surface-variant">ID: EPS-7905-001</p>
+</div>
+<span class="material-symbols-outlined text-tertiary-container group-hover:scale-110 transition-transform" data-icon="check_circle">check_circle</span>
+</label>
+<label class="flex items-center p-4 bg-surface-container-lowest border border-outline-variant rounded-xl cursor-pointer hover:border-primary transition-all group">
+<input class="w-4 h-4 text-primary focus:ring-primary border-outline-variant" name="projector" type="radio"/>
+<div class="ml-4 flex-1">
+<p class="font-bold text-on-surface">Sony VPL-FHZ75</p>
+<p class="text-[12px] text-on-surface-variant">ID: SNY-FHZ-042</p>
+</div>
+<span class="material-symbols-outlined text-tertiary-container" data-icon="check_circle">check_circle</span>
+</label>
+<label class="flex items-center p-4 bg-surface-container-lowest border border-outline-variant rounded-xl cursor-pointer hover:border-primary transition-all group">
+<input class="w-4 h-4 text-primary focus:ring-primary border-outline-variant" name="projector" type="radio"/>
+<div class="ml-4 flex-1">
+<p class="font-bold text-on-surface">BenQ LH720</p>
+<p class="text-[12px] text-on-surface-variant">ID: BNQ-720-112</p>
+</div>
+<span class="material-symbols-outlined text-tertiary-container" data-icon="check_circle">check_circle</span>
+</label>
+</div>
+</div>
+<!-- Rental Actions -->
+<div class="flex flex-col justify-end">
+<div class="bg-surface-container-high p-4 rounded-xl border border-outline-variant/50 mb-4">
+<div class="flex items-center gap-3 text-on-surface-variant mb-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="mail">mail</span>
+<span class="text-[12px] font-medium">Confirmação Automática por E-mail</span>
+</div>
+<p class="text-[11px] text-on-surface-variant/80 italic">Um comprovante será enviado para a.thorne@unifor.edu.br após a confirmação.</p>
+</div>
+<button class="w-full bg-primary text-on-primary font-label-md py-4 rounded-xl shadow-lg hover:shadow-xl transition-all active:scale-[0.98]" onclick="confirmRental()">
+                                Confirmar Empréstimo
+                            </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Rental Confirmation Overlay (Mockup) -->
+<div class="fixed inset-0 z-[100] flex items-center justify-center bg-primary/20 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300" id="success-toast">
+<div class="bg-surface-container-lowest p-12 rounded-3xl shadow-2xl flex flex-col items-center max-w-sm text-center border border-outline-variant">
+<div class="w-20 h-20 bg-tertiary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-tertiary-container text-[40px]" data-icon="check">check</span>
+</div>
+<h3 class="font-headline-lg text-primary mb-2">Empréstimo Confirmado</h3>
+<p class="text-on-surface-variant font-body-md mb-8">Notificação enviada ao professor. Registro do sistema atualizado com sucesso.</p>
+<button class="w-full bg-primary text-on-primary font-label-md py-3 rounded-xl" onclick="closeSuccess()">Fechar</button>
+</div>
+</div>
+</div>
+<!-- Right Column: Active Rentals & Status -->
+<div class="col-span-12 lg:col-span-4 space-y-gutter">
+<!-- Active Rentals Section -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col h-full">
+<div class="p-6 border-b border-outline-variant flex items-center justify-between">
+<h3 class="font-headline-md text-primary">Empréstimos Ativos</h3>
+<span class="bg-primary-container text-on-primary-container px-2 py-0.5 rounded-full text-[12px] font-bold">4</span>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-3">
+<!-- Rental Item -->
+<div class="p-4 bg-surface-bright border border-outline-variant rounded-xl zebra-hover transition-colors group">
+<div class="flex justify-between items-start mb-2">
+<div>
+<p class="font-bold text-on-surface">Dra. Elena Rodriguez</p>
+<p class="text-[12px] text-on-surface-variant">Sony VPL-FHZ75</p>
+</div>
+<span class="text-on-surface-variant font-data-mono text-[11px]">Devolução em 2h</span>
+</div>
+<div class="flex items-center justify-between mt-4">
+<span class="text-[11px] text-on-surface-variant">ID: SNY-75-012</span>
+<button class="px-3 py-1.5 bg-secondary-container text-on-secondary-container rounded-lg text-[12px] font-bold hover:bg-secondary hover:text-on-secondary transition-all">
+                                Confirmar Devolução
+                            </button>
+</div>
+</div>
+<!-- Rental Item -->
+<div class="p-4 bg-surface-bright border border-outline-variant rounded-xl zebra-hover transition-colors group">
+<div class="flex justify-between items-start mb-2">
+<div>
+<p class="font-bold text-on-surface">Prof. James Wilson</p>
+<p class="text-[12px] text-on-surface-variant">Epson EB-L200F</p>
+</div>
+<span class="text-error font-data-mono text-[11px] font-bold">Atrasado</span>
+</div>
+<div class="flex items-center justify-between mt-4">
+<span class="text-[11px] text-on-surface-variant">ID: EPS-200-098</span>
+<button class="px-3 py-1.5 bg-secondary-container text-on-secondary-container rounded-lg text-[12px] font-bold hover:bg-secondary hover:text-on-secondary transition-all">
+                                Confirmar Devolução
+                            </button>
+</div>
+</div>
+<!-- Rental Item -->
+<div class="p-4 bg-surface-bright border border-outline-variant rounded-xl zebra-hover transition-colors group">
+<div class="flex justify-between items-start mb-2">
+<div>
+<p class="font-bold text-on-surface">Dra. Sarah Chen</p>
+<p class="text-[12px] text-on-surface-variant">Optoma ZH403</p>
+</div>
+<span class="text-on-surface-variant font-data-mono text-[11px]">Iniciado há 15m</span>
+</div>
+<div class="flex items-center justify-between mt-4">
+<span class="text-[11px] text-on-surface-variant">ID: OPT-403-221</span>
+<button class="px-3 py-1.5 bg-secondary-container text-on-secondary-container rounded-lg text-[12px] font-bold hover:bg-secondary hover:text-on-secondary transition-all">
+                                Confirmar Devolução
+                            </button>
+</div>
+</div>
+</div>
+<div class="p-4 bg-surface-container-low border-t border-outline-variant">
+<button class="w-full text-primary font-label-md py-2 hover:underline transition-all">
+                        Ver Todos os Empréstimos Atuais
+                    </button>
+</div>
+</section>
+</div>
+</div>
+</main>
+<script>
+    function simulateScan() {
+        const waitState = document.getElementById('wait-state');
+        const scannedState = document.getElementById('scanned-state');
+        
+        waitState.classList.add('opacity-0');
+        setTimeout(() => {
+            waitState.classList.add('hidden');
+            scannedState.classList.remove('hidden');
+            scannedState.classList.add('opacity-100');
+        }, 300);
+    }
+
+    function resetScan() {
+        const waitState = document.getElementById('wait-state');
+        const scannedState = document.getElementById('scanned-state');
+        
+        scannedState.classList.add('hidden');
+        waitState.classList.remove('hidden', 'opacity-0');
+    }
+
+    function confirmRental() {
+        const toast = document.getElementById('success-toast');
+        toast.classList.remove('hidden');
+        setTimeout(() => {
+            toast.classList.remove('opacity-0');
+        }, 10);
+    }
+
+    function closeSuccess() {
+        const toast = document.getElementById('success-toast');
+        toast.classList.add('opacity-0');
+        setTimeout(() => {
+            toast.classList.add('hidden');
+            resetScan();
+        }, 300);
+    }
+</script>
+</body></html>

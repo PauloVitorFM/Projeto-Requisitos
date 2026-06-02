@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Painel do Coordenador | Gestão de Projetores Unifor CCT</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#cbdbf5",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-fixed": "#261900",
+                    "on-primary-fixed-variant": "#1f477b",
+                    "on-surface-variant": "#43474f",
+                    "tertiary": "#00231f",
+                    "error-container": "#ffdad6",
+                    "primary": "#001e40",
+                    "tertiary-container": "#003a35",
+                    "surface-container-low": "#eff4ff",
+                    "surface-variant": "#d3e4fe",
+                    "on-background": "#0b1c30",
+                    "secondary-fixed-dim": "#e9c176",
+                    "on-tertiary-fixed-variant": "#005049",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-container": "#38ac9f",
+                    "secondary-container": "#fed488",
+                    "primary-fixed-dim": "#a7c8ff",
+                    "surface-bright": "#f8f9ff",
+                    "secondary": "#775a19",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#785a1a",
+                    "on-secondary": "#ffffff",
+                    "primary-container": "#003366",
+                    "surface-container": "#e5eeff",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface": "#f8f9ff",
+                    "on-primary-fixed": "#001b3c",
+                    "outline-variant": "#c3c6d1",
+                    "secondary-fixed": "#ffdea5",
+                    "primary-fixed": "#d5e3ff",
+                    "surface-tint": "#3a5f94",
+                    "error": "#ba1a1a",
+                    "on-primary-container": "#799dd6",
+                    "tertiary-fixed": "#89f5e7",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed-dim": "#6bd8cb",
+                    "inverse-surface": "#213145",
+                    "surface-container-high": "#dce9ff",
+                    "background": "#f8f9ff",
+                    "outline": "#737780",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-tertiary-fixed": "#00201d",
+                    "inverse-primary": "#a7c8ff",
+                    "on-secondary-fixed-variant": "#5d4201"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "margin-tablet": "24px",
+                    "margin-mobile": "16px",
+                    "container-max": "1440px",
+                    "margin-desktop": "40px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "headline-xl": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "data-mono": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .zebra-hover tr:hover {
+            background-color: #eff4ff;
+        }
+        .pulse-gold {
+            animation: pulse-gold-animation 2s infinite;
+        }
+        @keyframes pulse-gold-animation {
+            0% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(197, 160, 89, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0); }
+        }
+    </style>
+</head>
+<body class="bg-surface-bright text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-margin-desktop h-16 bg-surface-bright border-b border-outline-variant">
+<div class="flex items-center gap-4">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Gestão de Projetores Unifor CCT</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center bg-surface-container rounded-full px-4 py-1.5 gap-2 border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-64" placeholder="Buscar dados..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors relative">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="settings">settings</span>
+</button>
+<button class="ml-2 flex items-center gap-2 bg-primary-container text-on-primary-container px-4 py-2 rounded-full font-label-md pulse-gold transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="fingerprint" style="font-variation-settings: 'FILL' 1;">fingerprint</span>
+<span>Escanear Biometria</span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline ml-2">
+<img alt="Avatar do Membro da Equipe" data-alt="A professional headshot of a University staff member in their late 40s wearing a neutral-colored blazer. The background is a soft-focus academic office with shelves of books. The lighting is bright and natural, creating an atmosphere of institutional authority and approachability. The image fits the clean, minimalist modern aesthetic of the administrative dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvWWSNLmylCy6mpFFHKbN_VUskBbG-rwL12J62qitK7WAl1DcVDAdTO3HHWaXXNpRqnBvT0Gnb57dHVyk0jr5WwsGZmv31BrGx1SK_w0uozizOw4fqQzYde5wgTDF7d0l4F8DWO78njMI4Nu-yrvDqqILYVi91P8MBvGTLm4hsQjPsOHeM4LBFt-rux_8vTCWt01slnE_tcRUowCYXRNd2PPkQSyH6pjuy5-wwfJbzyYfcvj9y_Mrup1bzqosJaPE90dNXaIpaAsI"/>
+</div>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 bottom-0 w-64 flex flex-col p-4 z-40 bg-surface-container-lowest border-r border-outline-variant">
+<div class="mb-8 px-2">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-headline-md" data-icon="school">school</span>
+</div>
+<div class="font-headline-md text-headline-md font-black text-primary">Admin Projetores</div>
+</div>
+<div class="font-body-md text-body-md text-on-surface-variant ml-11">Departamento CCT</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-bold transition-all translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-md text-label-md">Painel</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="videocam">videocam</span>
+<span class="font-label-md text-label-md">Inventário</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="handshake">handshake</span>
+<span class="font-label-md text-label-md">Atendimento</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 border-t border-outline-variant space-y-1">
+<button class="w-full flex items-center justify-center gap-2 bg-primary text-white py-3 rounded-xl font-label-md mb-6 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span>Novo Aluguel</span>
+</button>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="info">info</span>
+<span class="font-label-md text-label-md">Status do Sistema</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Ajuda</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 mt-16 p-margin-desktop bg-surface">
+<div class="max-w-container-max mx-auto">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-primary mb-1">Painel do Coordenador</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Inventário e Métricas de Aluguel de Projetores CCT em Tempo Real</p>
+</div>
+<div class="flex gap-3">
+<div class="bg-surface-container-high p-1 rounded-lg flex">
+<button class="px-4 py-1.5 rounded-md bg-white shadow-sm font-label-md text-primary">Mensal</button>
+<button class="px-4 py-1.5 rounded-md font-label-md text-on-surface-variant">Semanal</button>
+</div>
+<button class="flex items-center gap-2 border border-outline-variant px-4 py-2 rounded-lg font-label-md hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-body-md" data-icon="download">download</span>
+<span>Exportar CSV</span>
+</button>
+</div>
+</div>
+<!-- Bento Grid Metrics -->
+<div class="grid grid-cols-12 gap-gutter mb-gutter">
+<!-- Metric 1: Total -->
+<div class="col-span-3 bg-surface-container-lowest border border-outline-variant p-6 rounded-xl flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Total de Projetores</span>
+<div class="w-10 h-10 bg-primary-fixed flex items-center justify-center rounded-full text-on-primary-fixed">
+<span class="material-symbols-outlined" data-icon="inventory">inventory</span>
+</div>
+</div>
+<div>
+<div class="font-headline-xl text-headline-xl text-primary">142</div>
+<div class="font-label-md text-label-md text-secondary-fixed-dim mt-1">Inventário Institucional</div>
+</div>
+</div>
+<!-- Metric 2: Rented -->
+<div class="col-span-3 bg-surface-container-lowest border border-outline-variant p-6 rounded-xl flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Atualmente Alugados</span>
+<div class="w-10 h-10 bg-secondary-container flex items-center justify-center rounded-full text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="schedule">schedule</span>
+</div>
+</div>
+<div>
+<div class="font-headline-xl text-headline-xl text-primary">58</div>
+<div class="flex items-center gap-1 font-label-md text-label-md text-[#15803d] mt-1">
+<span class="material-symbols-outlined text-body-md" data-icon="trending_up">trending_up</span>
+<span>12% desde ontem</span>
+</div>
+</div>
+</div>
+<!-- Metric 3: Maintenance -->
+<div class="col-span-3 bg-surface-container-lowest border border-outline-variant p-6 rounded-xl flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Em Manutenção</span>
+<div class="w-10 h-10 bg-error-container flex items-center justify-center rounded-full text-on-error-container">
+<span class="material-symbols-outlined" data-icon="build">build</span>
+</div>
+</div>
+<div>
+<div class="font-headline-xl text-headline-xl text-primary">07</div>
+<div class="font-label-md text-label-md text-error mt-1">2 reparos críticos pendentes</div>
+</div>
+</div>
+<!-- Metric 4: Models -->
+<div class="col-span-3 bg-surface-container-lowest border border-outline-variant p-6 rounded-xl flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Modelo Mais Usado</span>
+<div class="w-10 h-10 bg-tertiary-fixed flex items-center justify-center rounded-full text-on-tertiary-fixed">
+<span class="material-symbols-outlined" data-icon="star">star</span>
+</div>
+</div>
+<div>
+<div class="font-headline-md text-headline-md text-primary">Epson G7905U</div>
+<div class="font-label-md text-label-md text-on-surface-variant mt-1">42% do total de aluguéis</div>
+</div>
+</div>
+</div>
+<!-- Chart and Frequent Users Section -->
+<div class="grid grid-cols-12 gap-gutter mb-gutter">
+<!-- Usage Chart -->
+<div class="col-span-8 bg-surface-container-lowest border border-outline-variant p-8 rounded-xl">
+<div class="flex justify-between items-center mb-8">
+<h3 class="font-headline-md text-headline-md text-primary">Frequência de Aluguel ao Longo do Tempo</h3>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-primary rounded-full"></span>
+<span class="font-label-md text-label-md text-on-surface-variant">Aluguéis</span>
+</div>
+</div>
+</div>
+<div class="relative h-64 w-full flex items-end justify-between px-4 pb-2">
+<!-- Simulated Chart Grid Lines -->
+<div class="absolute inset-0 border-b border-outline-variant flex flex-col justify-between">
+<div class="w-full border-t border-surface-variant border-dashed h-0"></div>
+<div class="w-full border-t border-surface-variant border-dashed h-0"></div>
+<div class="w-full border-t border-surface-variant border-dashed h-0"></div>
+<div class="w-full h-0"></div>
+</div>
+<!-- Bars -->
+<div class="relative z-10 w-12 bg-primary-container rounded-t-lg transition-all hover:bg-primary" style="height: 40%"></div>
+<div class="relative z-10 w-12 bg-primary-container rounded-t-lg transition-all hover:bg-primary" style="height: 65%"></div>
+<div class="relative z-10 w-12 bg-primary-container rounded-t-lg transition-all hover:bg-primary" style="height: 55%"></div>
+<div class="relative z-10 w-12 bg-primary-container rounded-t-lg transition-all hover:bg-primary" style="height: 85%"></div>
+<div class="relative z-10 w-12 bg-primary-container rounded-t-lg transition-all hover:bg-primary" style="height: 45%"></div>
+<div class="relative z-10 w-12 bg-primary-container rounded-t-lg transition-all hover:bg-primary" style="height: 95%"></div>
+<div class="relative z-10 w-12 bg-primary-container rounded-t-lg transition-all hover:bg-primary" style="height: 70%"></div>
+<div class="relative z-10 w-12 bg-primary-container rounded-t-lg transition-all hover:bg-primary" style="height: 60%"></div>
+</div>
+<div class="flex justify-between px-4 mt-4 font-label-md text-on-surface-variant">
+<span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span><span>Dom</span><span>Média</span>
+</div>
+</div>
+<!-- Frequent Users -->
+<div class="col-span-4 bg-surface-container-lowest border border-outline-variant p-8 rounded-xl flex flex-col">
+<h3 class="font-headline-md text-headline-md text-primary mb-6">Usuários Frequentes</h3>
+<div class="space-y-6">
+<div class="flex items-center gap-4">
+<img alt="Imagem da Professora" class="w-12 h-12 rounded-full border border-outline-variant" data-alt="A portrait of a senior female university professor with a focused and intelligent expression. She is in a lecture hall setting with blurry blackboard equations in the background. The aesthetic is academic, sophisticated, and high-contrast, matching the professional blue-and-white theme of the UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAW7oz5HCaxXnjEo6hTpL_MBMZAl3_12f62bNNpZL1zHpxFJAw0MIt1QXGoCif_vRGDF-tmmyANR4-xbOt25z66SpJU6mmcb3sapjOlTzwUhsYt5heXJEqVJEtoI3_N4HQawHCZsG0ivDJVDmZi1UHmkn4OJ7efiIdIKudfg3vdaCOPJC4A3xsMN5a8wnRYJaBC0EFN1Qiwm4m7seTS5Xbz4taucPlCoAsRESL1Z7DcpHRxKst-kH7uTcTxqGuO1CpfJT6cvtrAkqA"/>
+<div class="flex-1">
+<div class="font-body-lg font-bold text-primary">Dra. Elena Rodriguez</div>
+<div class="font-label-md text-on-surface-variant">Depto. de Ciência da Computação</div>
+</div>
+<div class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-md">24 Aluguéis</div>
+</div>
+<div class="flex items-center gap-4">
+<img alt="Imagem do Professor" class="w-12 h-12 rounded-full border border-outline-variant" data-alt="A portrait of a male university professor in his late 50s with grey hair, wearing a professional navy blue sweater over a collared shirt. He is standing in a modern university library with glass partitions. The lighting is clean and bright, maintaining an institutional modern feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8u0hJHLhsGU6t4IbK_c_s7-psUQbckkELLIivXGOSwYd9-EQf7kTVMFl_htlcfw1iHfwyZaASfyL4PGr6oG-muK2BpoFc3OwcQIrsoKu1sr4b7mmM8Q7j-PnO7aa6zwjoZtaHmgcYnCanJ2krwYs9KqtsfAHusvQPWiIIbMxj74R3fcl2UYilbtfkM7fUX6zmkQD5GVYZaQwZ-c90ZiGEWmK9sL0N_Aze55F1SbSpvqvYi4W76SnXi9iE2jEzIcV5odmMDNY90UI"/>
+<div class="flex-1">
+<div class="font-body-lg font-bold text-primary">Prof. James Sterling</div>
+<div class="font-label-md text-on-surface-variant">Engenharia Avançada</div>
+</div>
+<div class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-md">19 Aluguéis</div>
+</div>
+<div class="flex items-center gap-4">
+<img alt="Imagem do Professor" class="w-12 h-12 rounded-full border border-outline-variant" data-alt="A portrait of a young male academic researcher wearing glasses and a minimalist white lab coat. He is in a clean, brightly lit laboratory environment. The image is crisp, modern, and aligned with the functional minimalism of the management dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4smvFD5wKOtvbo4cB1cJSmEwEifNwDuXnvC57r3Nd7by2SVrEqPF2JGRnz6CcR9-O1IeotGJ6zcpEXYPf7aDXUDZGBeoxLvThDoj_wNz2tvKvCwnY4sA5ZUq4rba3iZMOddBsel1O0y44jLwbJ8oGhaJbXELJpy5UVYyutuFccdYpYeyH3-pjeV04-FizhA52KOGsPjCV6WGgVeDkwYolcQnh4xjIgW_t8jnnBNFkLn1OzWpTUXweWrDX0FVCpiivgNEJpL_x5CU"/>
+<div class="flex-1">
+<div class="font-body-lg font-bold text-primary">Dr. Marcus Webb</div>
+<div class="font-label-md text-on-surface-variant">Pós-Graduação CCT</div>
+</div>
+<div class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-md">15 Aluguéis</div>
+</div>
+</div>
+<button class="mt-auto pt-6 text-primary font-label-md flex items-center justify-center gap-2 hover:underline">
+                        Ver Lista Completa do Corpo Docente <span class="material-symbols-outlined text-body-md" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Usage Report Table -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+<div class="px-8 py-6 border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-primary">Relatório de Histórico de Uso</h3>
+<div class="flex gap-2">
+<button class="p-2 border border-outline-variant rounded hover:bg-surface-container-low"><span class="material-symbols-outlined" data-icon="filter_list">filter_list</span></button>
+<button class="p-2 border border-outline-variant rounded hover:bg-surface-container-low"><span class="material-symbols-outlined" data-icon="more_vert">more_vert</span></button>
+</div>
+</div>
+<table class="w-full text-left zebra-hover">
+<thead class="bg-surface-container-low border-b-2 border-primary">
+<tr>
+<th class="px-8 py-4 font-label-md text-primary uppercase">Professor</th>
+<th class="px-8 py-4 font-label-md text-primary uppercase">ID do Projetor</th>
+<th class="px-8 py-4 font-label-md text-primary uppercase">Hora de Início</th>
+<th class="px-8 py-4 font-label-md text-primary uppercase">Hora de Término</th>
+<th class="px-8 py-4 font-label-md text-primary uppercase">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr>
+<td class="px-8 py-5 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center text-primary font-bold text-xs">ER</div>
+<span class="font-body-md font-semibold text-on-surface">Dra. Elena Rodriguez</span>
+</td>
+<td class="px-8 py-5 font-data-mono text-data-mono text-on-surface-variant">EPSON-G79-014</td>
+<td class="px-8 py-5 font-body-md text-on-surface">24 Out, 2023 - 09:00</td>
+<td class="px-8 py-5 font-body-md text-on-surface">24 Out, 2023 - 12:00</td>
+<td class="px-8 py-5">
+<span class="bg-[#dcfce7] text-[#166534] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Concluído</span>
+</td>
+</tr>
+<tr>
+<td class="px-8 py-5 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center text-primary font-bold text-xs">JS</div>
+<span class="font-body-md font-semibold text-on-surface">Prof. James Sterling</span>
+</td>
+<td class="px-8 py-5 font-data-mono text-data-mono text-on-surface-variant">EPSON-G79-002</td>
+<td class="px-8 py-5 font-body-md text-on-surface">24 Out, 2023 - 10:30</td>
+<td class="px-8 py-5 font-body-md text-on-surface-variant">Em Andamento</td>
+<td class="px-8 py-5">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Ativo</span>
+</td>
+</tr>
+<tr>
+<td class="px-8 py-5 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center text-primary font-bold text-xs">MW</div>
+<span class="font-body-md font-semibold text-on-surface">Dr. Marcus Webb</span>
+</td>
+<td class="px-8 py-5 font-data-mono text-data-mono text-on-surface-variant">SONY-VH2-088</td>
+<td class="px-8 py-5 font-body-md text-on-surface">23 Out, 2023 - 14:00</td>
+<td class="px-8 py-5 font-body-md text-on-surface">23 Out, 2023 - 16:30</td>
+<td class="px-8 py-5">
+<span class="bg-[#dcfce7] text-[#166534] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Concluído</span>
+</td>
+</tr>
+<tr>
+<td class="px-8 py-5 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center text-primary font-bold text-xs">AH</div>
+<span class="font-body-md font-semibold text-on-surface">Prof. Alice Huang</span>
+</td>
+<td class="px-8 py-5 font-data-mono text-data-mono text-on-surface-variant">EPSON-G79-019</td>
+<td class="px-8 py-5 font-body-md text-on-surface">23 Out, 2023 - 08:00</td>
+<td class="px-8 py-5 font-body-md text-on-surface">23 Out, 2023 - 10:00</td>
+<td class="px-8 py-5">
+<span class="bg-error-container text-on-error-container px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Sinalizado</span>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="px-8 py-4 bg-surface-container-low flex justify-between items-center font-label-md">
+<span class="text-on-surface-variant">Mostrando 4 de 1.248 registros</span>
+<div class="flex gap-4">
+<button class="hover:text-primary transition-colors">Anterior</button>
+<button class="hover:text-primary transition-colors">Próximo</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Interactive Layer: Tooltip / Toast -->
+<div class="fixed bottom-8 right-8 bg-inverse-surface text-inverse-on-surface px-6 py-4 rounded-xl shadow-2xl translate-y-24 transition-transform duration-300 flex items-center gap-3" id="scan-feedback">
+<span class="material-symbols-outlined text-tertiary-fixed" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-md">Identidade biométrica verificada. Acesso concedido.</span>
+</div>
+<script>
+        // Micro-interaction for the Scan Button
+        const scanBtn = document.querySelector('button.pulse-gold');
+        const feedback = document.getElementById('scan-feedback');
+        
+        scanBtn.addEventListener('click', () => {
+            feedback.classList.remove('translate-y-24');
+            setTimeout(() => {
+                feedback.classList.add('translate-y-24');
+            }, 4000);
+        });
+
+        // Hover effect for side nav
+        const navItems = document.querySelectorAll('aside nav a');
+        navItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                if (!item.classList.contains('bg-secondary-container')) {
+                    item.style.transform = 'translateX(4px)';
+                }
+            });
+            item.addEventListener('mouseleave', () => {
+                if (!item.classList.contains('bg-secondary-container')) {
+                    item.style.transform = 'translateX(0)';
+                }
+            });
+        });
+    </script>
+</body></html>

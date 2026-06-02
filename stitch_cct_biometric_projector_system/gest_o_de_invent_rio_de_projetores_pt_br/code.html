@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gestão de Inventário de Projetores | Unifor CCT</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        @keyframes pulse-gold {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(197, 160, 89, 0); }
+        }
+        .pulse-active { animation: pulse-gold 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-dim": "#cbdbf5",
+                      "on-surface": "#0b1c30",
+                      "on-secondary-fixed": "#261900",
+                      "on-primary-fixed-variant": "#1f477b",
+                      "on-surface-variant": "#43474f",
+                      "tertiary": "#00231f",
+                      "error-container": "#ffdad6",
+                      "primary": "#001e40",
+                      "tertiary-container": "#003a35",
+                      "surface-container-low": "#eff4ff",
+                      "surface-variant": "#d3e4fe",
+                      "on-background": "#0b1c30",
+                      "secondary-fixed-dim": "#e9c176",
+                      "on-tertiary-fixed-variant": "#005049",
+                      "on-error-container": "#93000a",
+                      "on-tertiary-container": "#38ac9f",
+                      "secondary-container": "#fed488",
+                      "primary-fixed-dim": "#a7c8ff",
+                      "surface-bright": "#f8f9ff",
+                      "secondary": "#775a19",
+                      "on-error": "#ffffff",
+                      "on-secondary-container": "#785a1a",
+                      "on-secondary": "#ffffff",
+                      "primary-container": "#003366",
+                      "surface-container": "#e5eeff",
+                      "surface-container-highest": "#d3e4fe",
+                      "surface": "#f8f9ff",
+                      "on-primary-fixed": "#001b3c",
+                      "outline-variant": "#c3c6d1",
+                      "secondary-fixed": "#ffdea5",
+                      "primary-fixed": "#d5e3ff",
+                      "surface-tint": "#3a5f94",
+                      "error": "#ba1a1a",
+                      "on-primary-container": "#799dd6",
+                      "tertiary-fixed": "#89f5e7",
+                      "on-primary": "#ffffff",
+                      "tertiary-fixed-dim": "#6bd8cb",
+                      "inverse-surface": "#213145",
+                      "surface-container-high": "#dce9ff",
+                      "background": "#f8f9ff",
+                      "outline": "#737780",
+                      "on-tertiary": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "inverse-on-surface": "#eaf1ff",
+                      "on-tertiary-fixed": "#00201d",
+                      "inverse-primary": "#a7c8ff",
+                      "on-secondary-fixed-variant": "#5d4201"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "margin-tablet": "24px",
+                      "margin-mobile": "16px",
+                      "container-max": "1440px",
+                      "margin-desktop": "40px",
+                      "unit": "8px"
+              },
+              "fontFamily": {
+                      "headline-xl": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "data-mono": ["Inter"],
+                      "body-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-md": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background selection:bg-primary-fixed-dim selection:text-primary">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-margin-desktop h-16 bg-surface-bright border-b border-outline-variant">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md font-bold text-primary">Gestão de Projetores Unifor CCT</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container border-none rounded-xl text-body-md w-64 focus:ring-2 focus:ring-primary-container transition-all" placeholder="Buscar projetores..." type="text"/>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-xl flex items-center gap-2 font-label-md transition-transform active:scale-95 hover:bg-primary-container pulse-active">
+<span class="material-symbols-outlined" data-icon="fingerprint">fingerprint</span>
+                Validar Digital
+            </button>
+<div class="flex items-center gap-1">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+<img alt="Avatar do Membro da Equipe" class="w-10 h-10 rounded-full border border-outline-variant ml-2 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2v4AzTvntoXxcMFgaBGyc-RZ-1nslyTnTkcAu0lN2ccZKrvdQ61bPs-3C5L7hIsYFuaRs1DeRicOXJ4qg5cFxakNgQJYArpTm2O52ThQm3mbBI5z15BM100U7FgmfvA0MPTbZlIE-X3jNbc8Dek7zth5dm7fZ7b4jkG-XwSFjOlAA0uC5Mh3eEvxObUtP54VlMtWwad2EJmqm4jtoRJB7h1Zfev4kxtHwHssJcOyMhb0mjC5fyDnpzRz_c7YUPoRoIl-zMzl2jAM"/>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 bottom-0 w-64 flex flex-col p-4 z-40 bg-surface-container-lowest border-r border-outline-variant">
+<div class="mb-8 px-2">
+<h2 class="font-headline-md text-headline-md font-black text-primary">Admin Projetores</h2>
+<p class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Departamento CCT</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg font-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Painel de Controle
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-bold font-label-md translate-x-1 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="videocam">videocam</span>
+                Inventário
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg font-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="handshake">handshake</span>
+                Central de Serviços
+            </a>
+</nav>
+<div class="mt-auto pt-4 border-t border-outline-variant">
+<button class="w-full bg-primary-container text-on-primary-container font-bold py-3 rounded-xl mb-4 hover:opacity-90 transition-all flex items-center justify-center gap-2" onclick="document.getElementById('newProjectorModal').classList.remove('hidden')">
+<span class="material-symbols-outlined">add</span>
+                Novo Empréstimo
+            </button>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg font-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="info">info</span>
+                    Status do Sistema
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg font-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+                    Ajuda
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 mt-16 p-margin-desktop min-h-screen">
+<div class="max-w-container-max mx-auto">
+<!-- Header & Actions -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-primary mb-2">Gestão de Inventário</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant">Monitore e gerencie os ativos institucionais de projeção nos auditórios do CCT.</p>
+</div>
+<button class="bg-primary text-on-primary px-6 py-3 rounded-xl font-label-md flex items-center gap-2 hover:shadow-lg transition-all active:scale-95" onclick="document.getElementById('newProjectorModal').classList.remove('hidden')">
+<span class="material-symbols-outlined">add_box</span>
+                    Cadastrar Novo Projetor
+                </button>
+</div>
+<!-- Stats Bar -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-8">
+<div class="bg-surface-container-lowest border border-outline-variant p-6 rounded-xl">
+<p class="text-label-md font-label-md text-on-surface-variant uppercase mb-1">Frota Total</p>
+<p class="text-headline-xl font-headline-xl text-primary">48</p>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant p-6 rounded-xl border-l-4 border-l-tertiary">
+<p class="text-label-md font-label-md text-on-surface-variant uppercase mb-1">Disponíveis</p>
+<p class="text-headline-xl font-headline-xl text-tertiary">32</p>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant p-6 rounded-xl border-l-4 border-l-secondary">
+<p class="text-label-md font-label-md text-on-surface-variant uppercase mb-1">Em Uso</p>
+<p class="text-headline-xl font-headline-xl text-secondary">12</p>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant p-6 rounded-xl border-l-4 border-l-error">
+<p class="text-label-md font-label-md text-on-surface-variant uppercase mb-1">Manutenção</p>
+<p class="text-headline-xl font-headline-xl text-error">4</p>
+</div>
+</div>
+<!-- Filter Bar -->
+<div class="bg-surface-container-low p-4 rounded-xl mb-6 flex flex-wrap items-center gap-4 border border-outline-variant">
+<div class="flex items-center gap-2 bg-surface-container-lowest px-3 py-2 rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant text-body-md">filter_list</span>
+<select class="bg-transparent border-none text-body-md focus:ring-0 cursor-pointer">
+<option>Todos os Status</option>
+<option>Disponível</option>
+<option>Emprestado</option>
+<option>Manutenção</option>
+</select>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-lowest px-3 py-2 rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant text-body-md">branding_watermark</span>
+<select class="bg-transparent border-none text-body-md focus:ring-0 cursor-pointer">
+<option>Todos os Modelos</option>
+<option>Epson Pro G7905U</option>
+<option>Sony VPL-FHZ75</option>
+<option>Panasonic PT-RZ970</option>
+</select>
+</div>
+<div class="ml-auto text-label-md font-label-md text-on-surface-variant">
+                    Exibindo 48 itens
+                </div>
+</div>
+<!-- Data Table -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b-2 border-primary">
+<tr>
+<th class="px-6 py-4 font-label-md text-label-md text-primary uppercase">ID (Código de Barras)</th>
+<th class="px-6 py-4 font-label-md text-label-md text-primary uppercase">Modelo</th>
+<th class="px-6 py-4 font-label-md text-label-md text-primary uppercase">Status</th>
+<th class="px-6 py-4 font-label-md text-label-md text-primary uppercase">Último Professor</th>
+<th class="px-6 py-4 font-label-md text-label-md text-primary uppercase text-right">Ações</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-6 py-4 font-data-mono text-data-mono text-on-surface">CCT-PJ-001</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface font-medium">Epson Pro G7905U</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full text-label-md font-label-md bg-[#e6f4ea] text-[#1e7e34]">Disponível</span>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">Dr. Arnaldo Silva</td>
+<td class="px-6 py-4 text-right space-x-2">
+<button class="p-2 hover:bg-primary-container hover:text-on-primary-container rounded-lg transition-colors text-on-surface-variant" title="Editar"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 hover:bg-secondary-container hover:text-on-secondary-container rounded-lg transition-colors text-on-surface-variant" title="Manutenção"><span class="material-symbols-outlined">build</span></button>
+<button class="p-2 hover:bg-error-container hover:text-on-error-container rounded-lg transition-colors text-on-surface-variant" title="Remover"><span class="material-symbols-outlined">delete</span></button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-6 py-4 font-data-mono text-data-mono text-on-surface">CCT-PJ-042</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface font-medium">Sony VPL-FHZ75</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full text-label-md font-label-md bg-[#fff4e5] text-[#b45d00]">Emprestado</span>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">Prof. Maria Cavalcante</td>
+<td class="px-6 py-4 text-right space-x-2">
+<button class="p-2 hover:bg-primary-container hover:text-on-primary-container rounded-lg transition-colors text-on-surface-variant" title="Editar"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 hover:bg-secondary-container hover:text-on-secondary-container rounded-lg transition-colors text-on-surface-variant" title="Manutenção"><span class="material-symbols-outlined">build</span></button>
+<button class="p-2 hover:bg-error-container hover:text-on-error-container rounded-lg transition-colors text-on-surface-variant" title="Remover"><span class="material-symbols-outlined">delete</span></button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-6 py-4 font-data-mono text-data-mono text-on-surface">CCT-PJ-109</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface font-medium">Panasonic PT-RZ970</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full text-label-md font-label-md bg-error-container text-on-error-container">Manutenção</span>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">N/A (Oficina CCT)</td>
+<td class="px-6 py-4 text-right space-x-2">
+<button class="p-2 hover:bg-primary-container hover:text-on-primary-container rounded-lg transition-colors text-on-surface-variant" title="Editar"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 hover:bg-secondary-container hover:text-on-secondary-container rounded-lg transition-colors text-on-surface-variant" title="Manutenção"><span class="material-symbols-outlined">build</span></button>
+<button class="p-2 hover:bg-error-container hover:text-on-error-container rounded-lg transition-colors text-on-surface-variant" title="Remover"><span class="material-symbols-outlined">delete</span></button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-6 py-4 font-data-mono text-data-mono text-on-surface">CCT-PJ-088</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface font-medium">Epson Pro G7905U</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full text-label-md font-label-md bg-[#e6f4ea] text-[#1e7e34]">Disponível</span>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">Prof. Carlos Mendes</td>
+<td class="px-6 py-4 text-right space-x-2">
+<button class="p-2 hover:bg-primary-container hover:text-on-primary-container rounded-lg transition-colors text-on-surface-variant" title="Editar"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 hover:bg-secondary-container hover:text-on-secondary-container rounded-lg transition-colors text-on-surface-variant" title="Manutenção"><span class="material-symbols-outlined">build</span></button>
+<button class="p-2 hover:bg-error-container hover:text-on-error-container rounded-lg transition-colors text-on-surface-variant" title="Remover"><span class="material-symbols-outlined">delete</span></button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-6 py-4 font-data-mono text-data-mono text-on-surface">CCT-PJ-015</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface font-medium">Sony VPL-FHZ75</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full text-label-md font-label-md bg-[#fff4e5] text-[#b45d00]">Emprestado</span>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">Dr. Helena Souza</td>
+<td class="px-6 py-4 text-right space-x-2">
+<button class="p-2 hover:bg-primary-container hover:text-on-primary-container rounded-lg transition-colors text-on-surface-variant" title="Editar"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 hover:bg-secondary-container hover:text-on-secondary-container rounded-lg transition-colors text-on-surface-variant" title="Manutenção"><span class="material-symbols-outlined">build</span></button>
+<button class="p-2 hover:bg-error-container hover:text-on-error-container rounded-lg transition-colors text-on-surface-variant" title="Remover"><span class="material-symbols-outlined">delete</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="px-6 py-4 bg-surface-container-low border-t border-outline-variant flex items-center justify-between">
+<p class="text-label-md font-label-md text-on-surface-variant">Página 1 de 6</p>
+<div class="flex gap-2">
+<button class="p-2 border border-outline-variant rounded-lg hover:bg-surface-container transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="p-2 border border-outline-variant rounded-lg hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Modal: Register New Projector -->
+<div class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm px-4" id="newProjectorModal">
+<div class="bg-surface-container-lowest w-full max-w-lg rounded-xl shadow-2xl overflow-hidden border border-outline-variant animate-in fade-in zoom-in duration-200">
+<div class="px-6 py-4 border-b border-outline-variant flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-primary">Cadastrar Novo Projetor</h3>
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors" onclick="document.getElementById('newProjectorModal').classList.add('hidden')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<form class="p-6 space-y-6">
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant uppercase mb-2">Modelo</label>
+<select class="w-full bg-surface-container-low border-outline-variant border rounded-xl px-4 py-3 text-body-md focus:ring-2 focus:ring-primary focus:border-primary transition-all">
+<option>Epson Pro G7905U</option>
+<option>Sony VPL-FHZ75</option>
+<option>Panasonic PT-RZ970</option>
+<option>Optoma ZU1050</option>
+</select>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant uppercase mb-2">ID do Código de Barras</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">barcode_scanner</span>
+<input class="w-full bg-surface-container-low border-outline-variant border rounded-xl pl-12 pr-4 py-3 text-body-md focus:ring-2 focus:ring-primary focus:border-primary transition-all" placeholder="ex: CCT-PJ-000" type="text"/>
+</div>
+<p class="text-[11px] text-on-surface-variant mt-2 px-1 italic">Escaneie o código de barras físico ou digite o código de identificação manualmente.</p>
+</div>
+<div class="pt-4 flex gap-4">
+<button class="flex-1 py-3 border border-outline-variant text-on-surface rounded-xl font-label-md hover:bg-surface-container transition-all" onclick="document.getElementById('newProjectorModal').classList.add('hidden')" type="button">
+                        Cancelar
+                    </button>
+<button class="flex-1 py-3 bg-primary text-on-primary rounded-xl font-label-md hover:opacity-90 shadow-md transition-all active:scale-95" type="submit">
+                        Adicionar Ativo
+                    </button>
+</div>
+</form>
+</div>
+</div>
+<script>
+        // Simple micro-interaction for rows
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.classList.add('shadow-sm');
+            });
+            row.addEventListener('mouseleave', () => {
+                row.classList.remove('shadow-sm');
+            });
+        });
+
+        // Close modal on escape key
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.getElementById('newProjectorModal').classList.add('hidden');
+            }
+        });
+    </script>
+</body></html>
