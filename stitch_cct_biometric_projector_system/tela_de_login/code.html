@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login - Unifor CCT Projector Management System</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#e5eeff",
+                        "surface-variant": "#d3e4fe",
+                        "on-primary-fixed": "#001b3c",
+                        "primary-fixed-dim": "#a7c8ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#1f477b",
+                        "tertiary-container": "#003a35",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#43474f",
+                        "surface": "#f8f9ff",
+                        "secondary-fixed": "#ffdea5",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#e9c176",
+                        "on-secondary-fixed-variant": "#5d4201",
+                        "primary": "#001e40",
+                        "outline-variant": "#c3c6d1",
+                        "inverse-surface": "#213145",
+                        "inverse-primary": "#a7c8ff",
+                        "on-background": "#0b1c30",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary-container": "#38ac9f",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#00201d",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#dce9ff",
+                        "primary-container": "#003366",
+                        "surface-dim": "#cbdbf5",
+                        "secondary-container": "#fed488",
+                        "secondary": "#775a19",
+                        "inverse-on-surface": "#eaf1ff",
+                        "background": "#f8f9ff",
+                        "primary-fixed": "#d5e3ff",
+                        "on-secondary-container": "#785a1a",
+                        "tertiary-fixed": "#89f5e7",
+                        "outline": "#737780",
+                        "tertiary-fixed-dim": "#6bd8cb",
+                        "surface-tint": "#3a5f94",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#799dd6",
+                        "tertiary": "#00231f",
+                        "surface-container-low": "#eff4ff",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed": "#261900"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1440px",
+                        "margin-tablet": "24px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "data-mono": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "label-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background: radial-gradient(circle at top left, #f8f9ff 0%, #e5eeff 100%);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-body-md text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Hero Content & Main Canvas -->
+<main class="flex-grow flex items-center justify-center px-margin-mobile md:px-margin-desktop py-12 relative overflow-hidden">
+<!-- Subtle Atmospheric Decoration -->
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none overflow-hidden z-0">
+<div class="absolute top-[-10%] right-[-5%] w-[400px] h-[400px] bg-primary-container/10 rounded-full blur-[100px]"></div>
+<div class="absolute bottom-[10%] left-[-5%] w-[300px] h-[300px] bg-secondary-container/10 rounded-full blur-[80px]"></div>
+</div>
+<div class="w-full max-w-[440px] z-10">
+<!-- Login Container -->
+<div class="bg-surface-container-lowest border border-outline-variant/50 rounded-xl p-8 md:p-10 shadow-[0px_4px_24px_rgba(0,0,0,0.04)]">
+<!-- Brand Header -->
+<div class="flex flex-col items-center mb-10 text-center">
+<div class="bg-primary-container text-on-primary-container p-3 rounded-lg mb-4">
+<span class="material-symbols-outlined text-[32px]">videocam_off</span>
+</div>
+<h1 class="font-headline-md text-headline-md text-primary tracking-tight">Unifor CCT</h1>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase mt-1">Gestão de Projetores</p>
+</div>
+<!-- Login Form -->
+<form class="space-y-6" onsubmit="event.preventDefault();">
+<!-- Email Field -->
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant flex justify-between" for="email">
+                            E-mail Institucional
+                        </label>
+<div class="relative group">
+<input class="w-full h-12 pl-4 pr-32 bg-surface rounded border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200 outline-none font-body-md text-on-surface placeholder:text-outline" id="email" placeholder="usuario" type="text"/>
+<div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-outline font-data-mono">
+                                @unifor.edu.br
+                            </div>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant flex justify-between" for="password">
+                            Senha
+                            <a class="text-primary-container hover:underline transition-all" href="#">Esqueceu a senha?</a>
+</label>
+<div class="relative group">
+<input class="w-full h-12 pl-4 pr-12 bg-surface rounded border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200 outline-none font-body-md text-on-surface placeholder:text-outline" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute inset-y-0 right-0 flex items-center pr-4 text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<!-- Login Button -->
+<button class="w-full h-12 bg-primary-container text-on-primary-container font-label-md text-label-md rounded-lg flex items-center justify-center gap-2 hover:bg-primary transition-all duration-300 active:scale-[0.98] shadow-sm">
+                        ENTRAR NO SISTEMA
+                        <span class="material-symbols-outlined text-[18px]">login</span>
+</button>
+</form>
+<div class="mt-8 pt-8 border-t border-outline-variant/30 flex flex-col items-center gap-4">
+<p class="font-body-md text-on-surface-variant text-center">
+                        Precisa de ajuda com seu acesso?
+                    </p>
+<a class="flex items-center gap-2 text-primary font-label-md hover:text-primary-container transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">contact_support</span>
+                        Suporte Técnico CCT
+                    </a>
+</div>
+</div>
+<!-- Footer Quote/Info -->
+<div class="mt-8 text-center px-4">
+<p class="font-body-md text-on-surface-variant italic opacity-80">
+                    "Excelência acadêmica através da tecnologia e organização."
+                </p>
+</div>
+</div>
+</main>
+<!-- Footer from Shared Components JSON -->
+<footer class="bg-surface-container-lowest dark:bg-inverse-surface border-t border-outline-variant dark:border-outline">
+<div class="flex flex-col md:flex-row justify-between items-center w-full py-8 px-margin-desktop max-w-container-max mx-auto">
+<div class="flex flex-col md:flex-row items-center gap-4">
+<span class="font-label-md text-label-md font-semibold text-on-surface-variant dark:text-on-surface uppercase tracking-wider">Unifor CCT</span>
+<span class="hidden md:block text-outline-variant">|</span>
+<span class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface">© 2024 Unifor CCT Projector Management System</span>
+</div>
+<div class="flex gap-6 mt-6 md:mt-0">
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors underline-offset-4 hover:underline" href="#">Privacy Policy</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors underline-offset-4 hover:underline" href="#">Terms of Service</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors underline-offset-4 hover:underline" href="#">Support</a>
+</div>
+</div>
+</footer>
+<script>
+        // Password visibility toggle interaction
+        document.querySelector('button[type="button"]').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('span');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.innerText = 'visibility_off';
+            } else {
+                passwordInput.type = 'password';
+                icon.innerText = 'visibility';
+            }
+        });
+
+        // Simple focus effect for the email "@unifor.edu.br" suffix
+        const emailInput = document.getElementById('email');
+        const suffix = emailInput.nextElementSibling;
+        emailInput.addEventListener('focus', () => {
+            suffix.classList.add('text-primary');
+        });
+        emailInput.addEventListener('blur', () => {
+            suffix.classList.remove('text-primary');
+        });
+    </script>
+</body></html>
