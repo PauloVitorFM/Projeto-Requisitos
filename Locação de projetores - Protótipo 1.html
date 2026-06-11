@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Unifor CCT – Gestão de Projetores</title>
+<style>
+:root{--nv:#1a2e5a;--nd:#0f1f3d;--gd:#f0a500;--wh:#fff;--bg:#f4f6fb;--sw:240px;
+--tx:#1a1a2e;--mu:#6b7280;--bd:#e5e7eb;--ok:#16a34a;--wn:#d97706;--er:#dc2626;
+--sh:0 1px 4px rgba(0,0,0,.08),0 2px 12px rgba(0,0,0,.04);--r:10px;--rs:6px}
+*{box-sizing:border-box;margin:0;padding:0}html,body{height:100%}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);overflow-x:hidden}
+.screen{display:none;width:100%;min-height:100vh}.screen.active{display:flex}
+/* LOGIN */
+#sl{background:linear-gradient(135deg,#e8ecf6,#d6ddf0);align-items:center;justify-content:center;flex-direction:column;padding:20px 16px 80px}
+.lc{background:var(--wh);border-radius:16px;padding:44px 40px;width:100%;max-width:420px;box-shadow:0 8px 40px rgba(26,46,90,.14);display:flex;flex-direction:column;align-items:center}
+.li{width:68px;height:68px;background:var(--nv);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.li svg{width:36px;height:36px}
+.lc h1{font-size:22px;font-weight:700;color:var(--nv)}
+.lsub{font-size:11px;letter-spacing:1.5px;color:var(--mu);margin-top:3px;margin-bottom:28px;font-weight:600}
+.fg{width:100%;margin-bottom:18px}
+.flr{display:flex;justify-content:space-between;margin-bottom:7px;font-size:13px;font-weight:600}
+.flr a{color:var(--mu);text-decoration:none;font-weight:400}.flr a:hover{color:var(--nv)}
+.iw{position:relative}
+.iw input{width:100%;padding:11px 44px 11px 14px;border:1.5px solid var(--bd);border-radius:var(--rs);font-size:14px;outline:none;transition:border-color .2s}
+.iw input:focus{border-color:var(--nv)}
+.isuf{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--mu);font-size:13px;pointer-events:none}
+.eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--mu);display:flex;padding:2px}
+.bp{width:100%;padding:13px;background:var(--nv);color:var(--wh);border:none;border-radius:var(--rs);font-size:14px;font-weight:700;letter-spacing:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s;margin-top:4px}
+.bp:hover{background:var(--nd)}
+.lhelp{margin-top:26px;text-align:center;color:var(--mu);font-size:13px}
+.lsup{display:flex;align-items:center;gap:6px;justify-content:center;margin-top:8px;color:var(--nv);font-weight:600;font-size:13px;cursor:pointer}
+.lfoot{margin-top:28px;font-size:12px;color:#9ca3af;font-style:italic;text-align:center;max-width:320px}
+.sfoot{position:fixed;bottom:0;left:0;right:0;background:var(--wh);border-top:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;padding:10px 24px;font-size:12px;color:var(--mu);z-index:10;flex-wrap:wrap;gap:8px}
+.sfoot .brand{font-weight:700;color:var(--nv);font-size:11px;letter-spacing:1px}
+.sfoot .lks{display:flex;gap:14px}.sfoot .lks a{color:var(--mu);text-decoration:none}.sfoot .lks a:hover{color:var(--nv)}
+/* APP */
+#sa{flex-direction:column}
+.al{display:flex;width:100%;min-height:100vh;flex-direction:column}
+.tb{height:56px;background:var(--wh);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 16px;gap:12px;position:sticky;top:0;z-index:200}
+.tbh{display:none;background:none;border:none;cursor:pointer;color:var(--mu);padding:4px;border-radius:6px;flex-shrink:0}
+.tbh:hover{background:var(--bg);color:var(--nv)}
+.tbb{font-size:14px;font-weight:700;color:var(--nv);white-space:nowrap;flex-shrink:0}
+.tbs{flex:1;max-width:340px;position:relative}
+.tbs input{width:100%;padding:8px 12px 8px 36px;border:1.5px solid var(--bd);border-radius:8px;font-size:13px;outline:none;background:var(--bg)}
+.tbs input:focus{border-color:var(--nv);background:var(--wh)}
+.tbs .si{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--mu)}
+.tbr{margin-left:auto;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.bbio{background:var(--nv);color:var(--wh);border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:7px;transition:background .2s}
+.bbio:hover{background:var(--nd)}.bbio .lbl{display:inline}
+.ib{background:none;border:none;cursor:pointer;color:var(--mu);padding:6px;border-radius:6px;display:flex;align-items:center;position:relative}
+.ib:hover{background:var(--bg);color:var(--nv)}
+.bdg{position:absolute;top:2px;right:2px;width:15px;height:15px;background:var(--gd);border-radius:50%;font-size:9px;font-weight:700;color:var(--wh);display:flex;align-items:center;justify-content:center}
+.avt{width:34px;height:34px;border-radius:50%;background:var(--nv);display:flex;align-items:center;justify-content:center;color:var(--wh);font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0;position:relative}
+.bl2{display:flex;flex:1;min-height:0}
+.sb{width:var(--sw);background:var(--wh);border-right:1px solid var(--bd);display:flex;flex-direction:column;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;transition:transform .3s;flex-shrink:0;z-index:150}
+.sbu{padding:18px 14px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px}
+.sbui{width:36px;height:36px;background:var(--nv);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sbun{font-size:14px;font-weight:700;color:var(--nv)}.sbur{font-size:11px;color:var(--mu);margin-top:1px}
+.nl{list-style:none;padding:10px 8px;flex:1}
+.nl li a,.nl li button{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--rs);font-size:14px;font-weight:500;color:var(--mu);text-decoration:none;cursor:pointer;background:none;border:none;width:100%;text-align:left;transition:background .15s,color .15s}
+.nl li a:hover,.nl li button:hover{background:var(--bg);color:var(--nv)}
+.nl li.active a,.nl li.active button{background:#fef3c7;color:#92400e;font-weight:700}
+.sbf{padding:12px 8px;border-top:1px solid var(--bd)}
+.bnl{width:100%;padding:11px 14px;background:var(--nv);color:var(--wh);border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s}
+.bnl:hover{background:var(--nd)}
+.sbb{padding:8px}
+.sbb a,.sbb button{display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:13px;color:var(--mu);border-radius:6px;text-decoration:none;cursor:pointer;background:none;border:none;width:100%;text-align:left}
+.sbb a:hover,.sbb button:hover{background:var(--bg);color:var(--nv)}
+.lo{color:var(--er)!important}.lo:hover{background:#fee2e2!important;color:var(--er)!important}
+.sbov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:149}
+.sbov.active{display:block}
+.mc{flex:1;padding:24px 28px;overflow-y:auto;min-width:0}
+.pg{display:none}.pg.active{display:block}
+/* PAGE PARTS */
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px}
+.ph h2{font-size:24px;font-weight:800;color:var(--nv)}.ph p{font-size:13px;color:var(--mu);margin-top:4px}
+.phact{display:flex;gap:10px;flex-wrap:wrap}
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.sc{background:var(--wh);border-radius:var(--r);padding:18px 20px;box-shadow:var(--sh);border:1px solid var(--bd)}
+.scl{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--mu);text-transform:uppercase;margin-bottom:7px}
+.scv{font-size:34px;font-weight:800;color:var(--nv);line-height:1}
+.scv.gd{color:var(--gd)}.scv.gn{color:var(--ok)}.scv.rd{color:var(--er)}.scv.tl{color:#0891b2;font-size:20px;margin-top:4px}
+.scm{font-size:12px;color:var(--mu);margin-top:5px}.scm.up{color:var(--ok);font-weight:600}.scm.dn{color:var(--er);font-weight:600}
+.card{background:var(--wh);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bd)}
+.ch{padding:16px 18px 13px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.ch h3{font-size:15px;font-weight:700;color:var(--nv)}.cb{padding:18px}
+.tag{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700}
+.tag.ok{background:#dcfce7;color:var(--ok)}.tag.ac{background:#fef9c3;color:#854d0e}
+.tag.lt{background:#fee2e2;color:var(--er)}.tag.fl{background:#fee2e2;color:var(--er)}
+.tag.rs{background:#f3f4f6;color:var(--mu)}.tag.mn{background:#fff7ed;color:#9a3412}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{padding:9px 13px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--mu);border-bottom:1.5px solid var(--bd);text-transform:uppercase;white-space:nowrap}
+.tbl td{padding:12px 13px;border-bottom:1px solid var(--bd)}
+.tbl tr:last-child td{border-bottom:none}.tbl tr:hover td{background:var(--bg)}
+.tw{overflow-x:auto}
+.tf{padding:11px 14px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--mu);border-top:1px solid var(--bd);flex-wrap:wrap;gap:8px}
+.pgb{display:flex;gap:7px}
+.pb{padding:5px 13px;border:1.5px solid var(--bd);border-radius:6px;background:var(--wh);font-size:13px;cursor:pointer}
+.pb:hover{background:var(--bg)}
+.aib{background:none;border:none;cursor:pointer;color:var(--mu);padding:4px;border-radius:4px}
+.aib:hover{background:var(--bg);color:var(--nv)}
+.uc{display:flex;align-items:center;gap:9px}
+.ui{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--wh);flex-shrink:0}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+.dot.av{background:var(--ok)}.dot.lo{background:var(--gd)}.dot.mn{background:var(--er)}
+/* DASHBOARD */
+.dg{display:grid;grid-template-columns:1fr 300px;gap:18px}
+.ca{height:190px;display:flex;align-items:flex-end;gap:7px;padding:0 4px}
+.bw{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.bar{width:100%;background:var(--nv);border-radius:4px 4px 0 0;transition:opacity .2s}
+.bar:hover{opacity:.75}.brl{font-size:11px;color:var(--mu)}
+.la{font-size:13px;color:var(--nv);font-weight:600;text-align:center;padding:13px;display:block;border-top:1px solid var(--bd);text-decoration:none}
+.la:hover{background:var(--bg)}
+/* BALCAO */
+.blc{display:grid;grid-template-columns:1fr 320px;gap:18px}
+.bioc{background:var(--wh);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bd);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 36px;text-align:center;min-height:360px}
+.biow{width:110px;height:110px;background:var(--bg);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:22px;border:2px dashed var(--bd)}
+.biow.sc{border-color:var(--nv);background:#eff6ff;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.bioc h3{font-size:19px;font-weight:700;color:var(--nv);margin-bottom:11px}
+.bioc p{font-size:14px;color:var(--mu);max-width:300px;line-height:1.6}
+.bsim{margin-top:24px;padding:9px 22px;border:1.5px solid var(--bd);border-radius:8px;background:var(--wh);font-size:13px;cursor:pointer;color:var(--mu)}
+.bsim:hover{border-color:var(--nv);color:var(--nv)}
+.lpp{background:var(--wh);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bd)}
+.lph{padding:14px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+.lph h3{font-size:14px;font-weight:700;color:var(--nv)}
+.cpill{background:var(--nv);color:var(--wh);border-radius:20px;width:24px;height:24px;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.lpl{padding:10px;display:flex;flex-direction:column;gap:9px}
+.li2{border:1.5px solid var(--bd);border-radius:8px;padding:11px 13px}
+.lit{display:flex;justify-content:space-between;font-size:13px;margin-bottom:2px;flex-wrap:wrap;gap:4px}
+.lin{font-weight:700}.lid{font-size:12px;color:var(--mu);margin-bottom:7px}
+.lib{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.liid{font-size:11px;color:var(--mu)}
+.bc2{background:var(--gd);color:var(--wh);border:none;border-radius:6px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer}
+.bc2:hover{background:#c17d00}
+/* CONFIRM */
+.cfl{display:grid;grid-template-columns:340px 1fr;gap:22px}
+.prc{background:var(--wh);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bd);padding:26px}
+.pav2{display:flex;justify-content:center;margin-bottom:18px}
+.pavw{position:relative;display:inline-block}
+.pav3{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#0891b2);display:flex;align-items:center;justify-content:center;font-size:26px;color:white;font-weight:700}
+.pvrf{position:absolute;bottom:2px;right:2px;width:22px;height:22px;background:var(--ok);border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--wh)}
+.pnam{text-align:center;font-size:18px;font-weight:800;color:var(--nv);margin-bottom:3px}
+.pdpt{text-align:center;font-size:13px;color:var(--mu);margin-bottom:14px}
+.pmt{background:var(--bg);border-radius:8px;padding:9px 14px;text-align:center;font-size:12px;font-weight:700;letter-spacing:1px;color:var(--nv);margin-bottom:18px}
+.ctc h4{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--mu);text-transform:uppercase;margin-bottom:10px}
+.cit{display:flex;align-items:center;gap:7px;font-size:13px;margin-bottom:7px}
+.bvb{background:#f0fdf4;border:1.5px solid #86efac;border-radius:8px;padding:12px 14px;margin-top:14px}
+.bvt{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.bvl{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--ok);text-transform:uppercase}
+.bvx{font-size:13px;color:#166534;line-height:1.5}
+.psc{background:var(--wh);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bd)}
+.psh{padding:16px 18px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+.psh h3{font-size:15px;font-weight:700;color:var(--nv)}
+.abg{background:#fef3c7;color:#92400e;padding:4px 11px;border-radius:20px;font-size:12px;font-weight:700}
+.pgr{display:grid;grid-template-columns:1fr 1fr;gap:11px;padding:18px}
+.po{border:2px solid var(--bd);border-radius:8px;padding:13px 14px;cursor:pointer;display:flex;align-items:center;gap:11px;transition:all .2s}
+.po:hover{border-color:var(--nv);background:var(--bg)}.po.sel{border-color:var(--nv);background:#eff6ff}
+.pic{width:34px;height:34px;background:var(--bg);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pid{font-size:14px;font-weight:700;color:var(--nv)}.pmd{font-size:12px;color:var(--mu)}.ck{margin-left:auto;color:var(--nv)}
+.its{padding:0 18px 16px}
+.its h4{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--mu);text-transform:uppercase;margin-bottom:9px}
+.itw{position:relative}
+.itw input{width:100%;padding:9px 36px 9px 12px;border:1.5px solid var(--bd);border-radius:8px;font-size:13px;outline:none}
+.itw input:focus{border-color:var(--nv)}
+.iht{font-size:12px;color:var(--mu);margin-top:5px;font-style:italic}
+.cas{display:flex;gap:11px;padding:14px 18px;border-top:1px solid var(--bd);flex-wrap:wrap}
+.bcf{flex:1;min-width:160px;padding:12px;background:var(--nv);color:var(--wh);border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s}
+.bcf:hover{background:var(--nd)}
+.bca{padding:12px 18px;background:var(--wh);border:1.5px solid var(--bd);border-radius:8px;font-size:14px;font-weight:600;cursor:pointer}
+.bca:hover{background:var(--bg)}
+.aud{margin:14px 18px 0;padding:12px 14px;background:#fffbeb;border:1.5px solid #fcd34d;border-radius:8px;display:flex;gap:9px}
+.auc{color:var(--gd);flex-shrink:0;margin-top:1px}
+.aut{font-size:13px;font-weight:700;color:#92400e;margin-bottom:3px}.aux{font-size:12px;color:#a16207;line-height:1.5}
+.bc3{display:flex;align-items:center;gap:7px;margin-bottom:18px;font-size:13px;color:var(--mu);flex-wrap:wrap}
+.bc3 a{color:var(--mu);text-decoration:none;cursor:pointer}.bc3 a:hover{color:var(--nv)}
+.bc3 .sep{color:#d1d5db}.bc3 .cur{color:var(--nv);font-weight:600}
+.prg{display:flex;background:var(--bg);border-radius:8px;border:1px solid var(--bd)}
+.prb{padding:7px 15px;border:none;background:none;border-radius:7px;font-size:13px;cursor:pointer}
+.prb.active{background:var(--wh);box-shadow:var(--sh);font-weight:600;color:var(--nv)}
+.fb{display:flex;gap:10px;margin-bottom:14px;align-items:center;flex-wrap:wrap}
+.sf{padding:8px 30px 8px 11px;border:1.5px solid var(--bd);border-radius:8px;font-size:13px;background:var(--wh);cursor:pointer;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center}
+.cb2{margin-left:auto;font-size:13px;color:var(--mu)}
+/* MODALS */
+.mov{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px}
+.mov.hid{display:none}
+.mod{background:var(--wh);border-radius:14px;padding:28px;width:100%;max-width:480px;box-shadow:0 20px 60px rgba(0,0,0,.2);max-height:90vh;overflow-y:auto}
+.mod h3{font-size:18px;font-weight:800;color:var(--nv);margin-bottom:7px}
+.mod .ms{font-size:13px;color:var(--mu);margin-bottom:22px;line-height:1.6}
+.mfg{margin-bottom:16px}.mfg label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.mfg input,.mfg select,.mfg textarea{width:100%;padding:10px 12px;border:1.5px solid var(--bd);border-radius:8px;font-size:13px;outline:none;font-family:inherit}
+.mfg input:focus,.mfg select:focus,.mfg textarea:focus{border-color:var(--nv)}
+.mfg textarea{resize:vertical;min-height:80px}
+.mas{display:flex;gap:11px;margin-top:22px;flex-wrap:wrap}
+.mas .bp{flex:1;min-width:100px;letter-spacing:0;margin-top:0}
+.bg2{flex:1;min-width:100px;padding:12px;background:var(--wh);border:1.5px solid var(--bd);border-radius:8px;font-size:14px;cursor:pointer;font-weight:600}
+.bg2:hover{background:var(--bg)}
+/* DROPDOWNS */
+.ddm{position:absolute;top:calc(100% + 6px);right:0;background:var(--wh);border:1px solid var(--bd);border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.13);min-width:240px;z-index:300;overflow:hidden}
+.ddm.hid{display:none}
+.ddi{display:flex;align-items:center;gap:9px;padding:11px 14px;font-size:13px;cursor:pointer;text-decoration:none;border:none;background:none;width:100%;text-align:left;color:var(--tx)}
+.ddi:hover{background:var(--bg)}.ddi.rd{color:var(--er)}.ddi.rd:hover{background:#fee2e2}
+.ddv{border-top:1px solid var(--bd);margin:4px 0}
+.ni{padding:12px 14px;border-bottom:1px solid var(--bd);cursor:pointer}
+.ni:hover{background:var(--bg)}.ni:last-child{border-bottom:none}
+.nit{font-size:13px;font-weight:600;margin-bottom:3px}.nis{font-size:12px;color:var(--mu)}.nim{font-size:11px;color:var(--mu);margin-top:3px}
+.niu{border-left:3px solid var(--nv)}
+/* SEARCH RESULTS */
+.srd{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--wh);border:1px solid var(--bd);border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.13);z-index:300;max-height:300px;overflow-y:auto}
+.srd.hid{display:none}
+.sri{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;font-size:13px}
+.sri:hover{background:var(--bg)}.sri-i{width:28px;height:28px;background:var(--bg);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sri-n{font-weight:600}.sri-t{font-size:11px;color:var(--mu)}.sr0{padding:18px;text-align:center;color:var(--mu);font-size:13px}
+/* TOAST */
+.ta{position:fixed;top:66px;right:16px;z-index:999;display:flex;flex-direction:column;gap:8px;max-width:320px}
+.toast{background:var(--nv);color:var(--wh);padding:12px 16px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.2);animation:tin .3s ease;cursor:pointer;word-break:break-word}
+.toast.ok{background:var(--ok)}.toast.wn{background:var(--wn)}.toast.er{background:var(--er)}
+@keyframes tin{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+/* SETTINGS */
+.stg{display:grid;grid-template-columns:200px 1fr;gap:18px}
+.stn{background:var(--wh);border-radius:var(--r);border:1px solid var(--bd);overflow:hidden;height:fit-content}
+.stni{display:flex;align-items:center;gap:9px;padding:12px 16px;font-size:14px;cursor:pointer;border-bottom:1px solid var(--bd);color:var(--mu)}
+.stni:last-child{border-bottom:none}.stni:hover{background:var(--bg);color:var(--nv)}.stni.ac{background:#eff6ff;color:var(--nv);font-weight:700}
+.stp{background:var(--wh);border-radius:var(--r);border:1px solid var(--bd);padding:24px}
+.sts{margin-bottom:26px}.sts h4{font-size:14px;font-weight:700;color:var(--nv);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--bd)}
+.tgr{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--bd)}
+.tgr:last-child{border-bottom:none}.tgi{font-size:14px;font-weight:600}.tgs{font-size:12px;color:var(--mu);margin-top:2px}
+.tog{width:42px;height:24px;border-radius:12px;background:#d1d5db;border:none;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0}
+.tog.on{background:var(--nv)}.tog::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--wh);transition:transform .2s}
+.tog.on::after{transform:translateX(18px)}
+/* STATUS */
+.svg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+.svi{background:var(--wh);border-radius:var(--r);padding:16px 18px;border:1px solid var(--bd);display:flex;align-items:center;gap:12px}
+.svd{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.svd.ok{background:var(--ok)}.svd.wn{background:var(--gd)}.svd.er{background:var(--er)}
+.svn{font-size:14px;font-weight:600}.svs{font-size:12px;color:var(--mu);margin-top:1px}
+/* HELP */
+.hgr{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.hc{background:var(--wh);border-radius:var(--r);border:1px solid var(--bd);padding:20px;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.hc:hover{border-color:var(--nv);box-shadow:0 4px 16px rgba(26,46,90,.1)}
+.hci{width:40px;height:40px;border-radius:10px;background:var(--bg);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.hc h4{font-size:14px;font-weight:700;color:var(--nv);margin-bottom:5px}
+.hc p{font-size:13px;color:var(--mu);line-height:1.5}
+/* PROGRESS BARS */
+.pb2{height:8px;background:var(--bg);border-radius:4px;overflow:hidden;margin-top:5px}
+.pf{height:100%;border-radius:4px}
+/* RESPONSIVE */
+@media(max-width:1024px){.dg{grid-template-columns:1fr}.cfl{grid-template-columns:1fr}.sg{grid-template-columns:repeat(2,1fr)}.stg{grid-template-columns:1fr}}
+@media(max-width:768px){
+  .sb{position:fixed;top:56px;left:0;height:calc(100vh - 56px);transform:translateX(-100%);z-index:150}
+  .sb.open{transform:translateX(0)}.tbh{display:flex}.bbio .lbl{display:none}
+  .mc{padding:14px}.sg{grid-template-columns:repeat(2,1fr)}.pgr{grid-template-columns:1fr}
+  .blc{grid-template-columns:1fr}.cas{flex-direction:column}.bcf,.bca{width:100%}
+  .ph{flex-direction:column}.hgr{grid-template-columns:1fr}.svg{grid-template-columns:1fr}
+  .sfoot{flex-direction:column;text-align:center}.sfoot .lks{justify-content:center}
+  .lc{padding:32px 24px}
+}
+@media(max-width:480px){.sg{grid-template-columns:1fr 1fr}.tbb{display:none}.topbar{gap:8px}.tbs{flex:1;max-width:none}}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="sl" class="screen active">
+  <div class="lc">
+    <div class="li"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+    <h1>Unifor CCT</h1><div class="lsub">GESTÃO DE PROJETORES</div>
+    <div class="fg">
+      <div class="flr"><span>E-mail Institucional</span><a href="#" onclick="openM('m-sim');return false">🔑 Simular Perfil</a></div>
+      <div class="iw"><input type="text" id="l-u" placeholder="usuario" value="admin"><span class="isuf">@unifor.edu.br</span></div>
+    </div>
+    <div class="fg">
+      <div class="flr"><span>Senha</span><a href="#" onclick="openM('m-frg');return false">Esqueceu a senha?</a></div>
+      <div class="iw"><input type="password" id="l-p" placeholder="••••••••" value="123456"><button class="eye" onclick="tPass(this)" type="button"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+    </div>
+    <button class="bp" onclick="doLogin()">ENTRAR NO SISTEMA <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg></button>
+    <div class="lhelp">Precisa de ajuda?<div class="lsup" onclick="openM('m-sup')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Suporte Técnico CCT</div></div>
+    <div class="lfoot">"Excelência acadêmica através da tecnologia e organização."</div>
+  </div>
+  <div class="sfoot"><span class="brand">UNIFOR CCT</span><span>© 2024 Unifor CCT</span><div class="lks"><a href="#" onclick="openM('m-prv');return false">Privacidade</a><a href="#" onclick="openM('m-trm');return false">Termos</a><a href="#" onclick="openM('m-sup');return false">Suporte</a></div></div>
+</div>
+
+<!-- ===== APP ===== -->
+<div id="sa" class="screen">
+<div class="al">
+<!-- TOPBAR -->
+<div class="tb">
+  <button class="tbh" onclick="tSB()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <span class="tbb">Gestão de Projetores — Unifor CCT</span>
+  <div class="tbs"><span class="si"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input type="text" placeholder="Pesquisar..." id="t-s" autocomplete="off" oninput="doSrc(this.value)" onfocus="showSD()" onblur="setTimeout(hideSD,200)"><div class="srd hid" id="sr-dd"></div></div>
+  <div class="tbr">
+    <button class="bbio" onclick="navigate('balcao')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="lbl">Biometria</span></button>
+    <div style="position:relative">
+      <button class="ib" onclick="tDD('n-dd')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="bdg" id="n-cnt">2</span></button>
+      <div class="ddm hid" id="n-dd" style="min-width:300px">
+        <div style="padding:12px 14px 8px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center"><span style="font-size:14px;font-weight:700;color:var(--nv)">Notificações</span><span style="font-size:12px;color:var(--nv);cursor:pointer;font-weight:600" onclick="markAll()">Marcar tudo lido</span></div>
+        <div class="ni niu" onclick="hN(1)"><div class="nit">⚠️ Projetor CCT-PJ-109 em manutenção</div><div class="nis">Reparo crítico identificado.</div><div class="nim">Há 15 minutos</div></div>
+        <div class="ni niu" onclick="hN(2)"><div class="nit">🔴 Prof. James Wilson com atraso</div><div class="nis">EPS-200-098 não devolvido.</div><div class="nim">Há 1 hora</div></div>
+        <div class="ni" onclick="hN(3)"><div class="nit">✅ Devolução — Dra. Sarah Chen</div><div class="nis">OPT-403-221 devolvido.</div><div class="nim">Há 3 horas</div></div>
+        <div class="ni" onclick="hN(4)"><div class="nit">📦 Novo projetor cadastrado</div><div class="nis">CCT-PJ-050 — Epson G7905U.</div><div class="nim">Ontem 14:30</div></div>
+      </div>
+    </div>
+    <button class="ib" onclick="navigate('configuracoes')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+    <div style="position:relative">
+      <div class="avt" id="av-b" onclick="tDD('p-dd')">A</div>
+      <div class="ddm hid" id="p-dd">
+        <div style="padding:14px;border-bottom:1px solid var(--bd)"><div style="font-size:14px;font-weight:700;color:var(--nv)" id="dd-n">Admin Projetores</div><div style="font-size:12px;color:var(--mu)">admin@unifor.edu.br</div></div>
+        <div class="ddi" onclick="cDD('p-dd');openM('m-prf')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Meu Perfil</div>
+        <div class="ddi" onclick="cDD('p-dd');openM('m-cp')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Trocar Senha</div>
+        <div class="ddi" onclick="cDD('p-dd');navigate('configuracoes')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Configurações</div>
+        <div class="ddv"></div>
+        <div class="ddi rd" onclick="doLogout()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sair</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="bl2">
+<div class="sbov" id="sbov" onclick="tSB()"></div>
+<!-- SIDEBAR -->
+<nav class="sb" id="sb">
+  <div class="sbu"><div class="sbui"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div><div><div class="sbun" id="sb-n">Admin Projetores</div><div class="sbur">Departamento CCT</div></div></div>
+  <ul class="nl" id="nav-list">
+    <li id="nav-painel" class="active"><a href="#" onclick="navigate('painel');return false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Painel de Controle</a></li>
+    <li id="nav-inventario"><a href="#" onclick="navigate('inventario');return false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Inventário</a></li>
+    <li id="nav-balcao"><a href="#" onclick="navigate('balcao');return false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Balcão de Atendimento</a></li>
+    <li id="nav-relatorios"><a href="#" onclick="navigate('relatorios');return false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Relatórios</a></li>
+    <li id="nav-configuracoes"><a href="#" onclick="navigate('configuracoes');return false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Configurações</a></li>
+  </ul>
+  <div class="sbf"><button class="bnl" onclick="navigate('balcao')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Novo Empréstimo</button></div>
+  <div class="sbb">
+    <a href="#" onclick="navigate('status');return false"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Status do Sistema</a>
+    <a href="#" onclick="navigate('ajuda');return false"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Ajuda</a>
+    <button class="lo" onclick="doLogout()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sair</button>
+  </div>
+</nav>
+<main class="mc">
+
+<!-- PAINEL -->
+<div id="page-painel" class="pg active">
+  <div class="ph"><div><h2>Painel do Coordenador</h2><p>Inventário e Métricas em Tempo Real</p></div>
+    <div class="phact">
+      <div class="prg"><button class="prb active" onclick="setPer(this,'Mensal')">Mensal</button><button class="prb" onclick="setPer(this,'Semanal')">Semanal</button></div>
+      <button style="padding:7px 14px;border:1.5px solid var(--bd);border-radius:8px;background:var(--wh);font-size:13px;cursor:pointer;display:flex;align-items:center;gap:5px" onclick="expCSV()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar CSV</button>
+    </div>
+  </div>
+  <div class="sg">
+    <div class="sc"><div class="scl">TOTAL PROJETORES</div><div class="scv">142</div><div class="scm">Inventário Institucional</div></div>
+    <div class="sc"><div class="scl">ALUGADOS</div><div class="scv gd">58</div><div class="scm up">↑ 12% desde ontem</div></div>
+    <div class="sc"><div class="scl">MANUTENÇÃO</div><div class="scv rd">07</div><div class="scm dn">2 reparos críticos</div></div>
+    <div class="sc"><div class="scl">MAIS USADO</div><div class="scv tl">Epson G7905U</div><div class="scm">42% dos aluguéis</div></div>
+  </div>
+  <div class="dg">
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="ch"><h3>Frequência de Aluguel</h3><span style="font-size:12px;color:var(--mu)">Esta semana</span></div>
+        <div class="cb"><div class="ca">
+          <div class="bw"><div class="bar" style="height:58px" title="Seg: 18"></div><div class="brl">Seg</div></div>
+          <div class="bw"><div class="bar" style="height:94px" title="Ter: 29"></div><div class="brl">Ter</div></div>
+          <div class="bw"><div class="bar" style="height:78px" title="Qua: 24"></div><div class="brl">Qua</div></div>
+          <div class="bw"><div class="bar" style="height:118px" title="Qui: 37"></div><div class="brl">Qui</div></div>
+          <div class="bw"><div class="bar" style="height:74px" title="Sex: 23"></div><div class="brl">Sex</div></div>
+          <div class="bw"><div class="bar" style="height:148px" title="Sáb: 46"></div><div class="brl">Sáb</div></div>
+          <div class="bw"><div class="bar" style="height:108px" title="Dom: 34"></div><div class="brl">Dom</div></div>
+        </div></div>
+      </div>
+      <div class="card">
+        <div class="ch"><h3>Histórico de Uso</h3><div style="display:flex;gap:6px"><button class="aib" onclick="openM('m-fil')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></button><button class="aib" onclick="expCSV()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button></div></div>
+        <div class="tw"><table class="tbl"><thead><tr><th>PROFESSOR</th><th>PROJETOR</th><th>INÍCIO</th><th>STATUS</th></tr></thead>
+        <tbody>
+          <tr><td><div class="uc"><div class="ui" style="background:#4f46e5">ER</div>Dra. Elena Rodriguez</div></td><td>EPSON-G79-014</td><td>24 Out – 09h</td><td><span class="tag ok">CONCLUÍDO</span></td></tr>
+          <tr><td><div class="uc"><div class="ui" style="background:#0891b2">JS</div>Prof. James Sterling</div></td><td>EPSON-G79-002</td><td>24 Out – 10h30</td><td><span class="tag ac">ATIVO</span></td></tr>
+          <tr><td><div class="uc"><div class="ui" style="background:#6b7280">MW</div>Dr. Marcus Webb</div></td><td>SONY-VH2-088</td><td>23 Out – 14h</td><td><span class="tag ok">CONCLUÍDO</span></td></tr>
+          <tr><td><div class="uc"><div class="ui" style="background:#d97706">AH</div>Prof. Alice Huang</div></td><td>EPSON-G79-019</td><td>23 Out – 08h</td><td><span class="tag fl">SINALIZADO</span></td></tr>
+        </tbody></table></div>
+        <div class="tf"><span>4 de 1.248 registros</span><div class="pgb"><button class="pb">‹ Anterior</button><button class="pb">Próximo ›</button></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><h3>Usuários Frequentes</h3><a href="#" onclick="openM('m-frq');return false" style="font-size:12px;color:var(--nv);text-decoration:none">Ver lista →</a></div>
+      <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:11px"><div class="ui" style="background:#4f46e5;width:38px;height:38px;border-radius:50%;flex-shrink:0;font-size:13px">ER</div><div style="flex:1"><div style="font-size:14px;font-weight:700">Dra. Elena Rodriguez</div><div style="font-size:12px;color:var(--mu)">Ciência da Computação</div></div><div style="background:var(--gd);color:var(--wh);border-radius:6px;padding:4px 9px;font-size:12px;font-weight:700;white-space:nowrap">24 Aluguéis</div></div>
+        <div style="display:flex;align-items:center;gap:11px"><div class="ui" style="background:#0891b2;width:38px;height:38px;border-radius:50%;flex-shrink:0;font-size:13px">JS</div><div style="flex:1"><div style="font-size:14px;font-weight:700">Prof. James Sterling</div><div style="font-size:12px;color:var(--mu)">Engenharia Avançada</div></div><div style="background:var(--gd);color:var(--wh);border-radius:6px;padding:4px 9px;font-size:12px;font-weight:700;white-space:nowrap">19 Aluguéis</div></div>
+        <div style="display:flex;align-items:center;gap:11px"><div class="ui" style="background:#6b7280;width:38px;height:38px;border-radius:50%;flex-shrink:0;font-size:13px">MW</div><div style="flex:1"><div style="font-size:14px;font-weight:700">Dr. Marcus Webb</div><div style="font-size:12px;color:var(--mu)">Pós-Graduação CCT</div></div><div style="background:var(--gd);color:var(--wh);border-radius:6px;padding:4px 9px;font-size:12px;font-weight:700;white-space:nowrap">15 Aluguéis</div></div>
+        <div style="display:flex;align-items:center;gap:11px"><div class="ui" style="background:#d97706;width:38px;height:38px;border-radius:50%;flex-shrink:0;font-size:13px">AH</div><div style="flex:1"><div style="font-size:14px;font-weight:700">Prof. Alice Huang</div><div style="font-size:12px;color:var(--mu)">Sistemas de Informação</div></div><div style="background:var(--gd);color:var(--wh);border-radius:6px;padding:4px 9px;font-size:12px;font-weight:700;white-space:nowrap">11 Aluguéis</div></div>
+      </div>
+      <a href="#" class="la" onclick="navigate('relatorios');return false">Ver Relatório Completo</a>
+    </div>
+  </div>
+</div>
+
+<!-- INVENTÁRIO -->
+<div id="page-inventario" class="pg">
+  <div class="ph"><div><h2>Gestão de Inventário</h2><p>Monitore e gerencie os ativos de projeção.</p></div><button class="bp" style="width:auto;padding:9px 18px;letter-spacing:0" onclick="openM('m-np')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Cadastrar Projetor</button></div>
+  <div class="sg"><div class="sc"><div class="scl">FROTA TOTAL</div><div class="scv">48</div></div><div class="sc"><div class="scl">DISPONÍVEIS</div><div class="scv gn">32</div></div><div class="sc"><div class="scl">EM USO</div><div class="scv gd">12</div></div><div class="sc"><div class="scl">MANUTENÇÃO</div><div class="scv rd">4</div></div></div>
+  <div class="card">
+    <div class="cb" style="padding:14px">
+      <div class="fb">
+        <select class="sf" onchange="filtInv(this.value,null)"><option value="">Todos os Status</option><option value="disponivel">Disponível</option><option value="emprestado">Emprestado</option><option value="manutencao">Manutenção</option></select>
+        <select class="sf" onchange="filtInv(null,this.value)"><option value="">Todos os Modelos</option><option value="epson pro">Epson Pro G7905U</option><option value="sony">Sony VPL-FHZ75</option><option value="panasonic">Panasonic PT-RZ970</option><option value="epson eb">Epson EB-L520U</option></select>
+        <span class="cb2" id="inv-cnt">8 itens</span>
+      </div>
+      <div class="tw"><table class="tbl"><thead><tr><th>ID</th><th>MODELO</th><th>STATUS</th><th>ÚLTIMO RESPONSÁVEL</th><th>AÇÕES</th></tr></thead><tbody id="inv-tb"></tbody></table></div>
+      <div class="tf"><span id="inv-pg">Página 1 de 2</span><div class="pgb"><button class="pb" onclick="pgP()">‹</button><button class="pb" onclick="pgN()">›</button></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- BALCÃO -->
+<div id="page-balcao" class="pg">
+  <div class="ph"><div><h2>Balcão de Atendimento</h2><p>Gerencie empréstimos e devoluções em tempo real.</p></div></div>
+  <div class="blc">
+    <div class="bioc" id="bio-card">
+      <div class="biow" id="biow"><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <h3>Aguardando Leitura Biométrica</h3>
+      <p>Peça ao professor para posicionar o dedo no scanner para autorizar o empréstimo.</p>
+      <button class="bsim" onclick="simBio()">▶ Simular Leitura (Dev)</button>
+    </div>
+    <div class="lpp">
+      <div class="lph"><h3>Empréstimos Ativos</h3><div class="cpill" id="ac-cnt">4</div></div>
+      <div class="lpl" id="lpl-list">
+        <div class="li2"><div class="lit"><span class="lin">Dra. Elena Rodriguez</span><span class="tag rs">2h restantes</span></div><div class="lid">Sony VPL-FHZ75</div><div class="lib"><span class="liid">SNY-75-012</span><button class="bc2" onclick="confRet('SNY-75-012','Dra. Elena Rodriguez')">Confirmar Devolução</button></div></div>
+        <div class="li2"><div class="lit"><span class="lin">Prof. James Wilson</span><span class="tag lt">Atrasado</span></div><div class="lid">Epson EB-L200F</div><div class="lib"><span class="liid">EPS-200-098</span><button class="bc2" onclick="confRet('EPS-200-098','Prof. James Wilson')">Confirmar Devolução</button></div></div>
+        <div class="li2"><div class="lit"><span class="lin">Dra. Sarah Chen</span><span style="font-size:11px;color:var(--mu)">há 15min</span></div><div class="lid">Optoma ZH403</div><div class="lib"><span class="liid">OPT-403-221</span><button class="bc2" onclick="confRet('OPT-403-221','Dra. Sarah Chen')">Confirmar Devolução</button></div></div>
+        <div class="li2"><div class="lit"><span class="lin">Prof. Carlos Mendes</span><span class="tag rs">4h restantes</span></div><div class="lid">Panasonic PT-RZ970</div><div class="lib"><span class="liid">PAN-970-006</span><button class="bc2" onclick="confRet('PAN-970-006','Prof. Carlos Mendes')">Confirmar Devolução</button></div></div>
+      </div>
+      <a class="la" href="#" onclick="openM('m-all');return false">Ver Todos os Empréstimos</a>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRMAÇÃO -->
+<div id="page-confirmacao" class="pg">
+  <div class="bc3"><a onclick="navigate('balcao')">Balcão</a><span class="sep">›</span><span class="cur">Confirmação de Empréstimo</span></div>
+  <h2 style="font-size:22px;font-weight:800;color:var(--nv);margin-bottom:5px">Confirmar Dados do Professor</h2>
+  <p style="font-size:13px;color:var(--mu);margin-bottom:20px">Validação biométrica concluída. Revise as informações abaixo.</p>
+  <div class="cfl">
+    <div class="prc">
+      <div class="pav2"><div class="pavw"><div class="pav3">RT</div><div class="pvrf"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div></div></div>
+      <div class="pnam">Dr. Ricardo Teixeira</div><div class="pdpt">Departamento de Computação e Tecnologia</div>
+      <div class="pmt">MATRÍCULA &nbsp; #UNIF-7729-01</div>
+      <hr style="border:none;border-top:1px solid var(--bd);margin:14px 0">
+      <div class="ctc"><h4>Informações de Contato</h4>
+        <div class="cit"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--mu)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>r.teixeira@unifor.br</div>
+        <div class="cit"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--mu)" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.17 3.34a2 2 0 0 1 1.99-2.17h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.58-.58a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>(85) 99823-4410</div>
+      </div>
+      <div class="bvb"><div class="bvt"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="bvl">BIO-VERIFICADO</span></div><div class="bvx">Histórico impecável de devolução. Prioridade nível A.</div></div>
+    </div>
+    <div class="psc">
+      <div class="psh"><h3>Selecionar Projetor</h3><span class="abg">12 DISPONÍVEIS</span></div>
+      <div class="pgr">
+        <div class="po sel" id="proj-p1" onclick="selP('p1')"><div class="pic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--nv)" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div><div><div class="pid">CCT-PJ-001</div><div class="pmd">Epson Pro G7905U</div></div><svg class="ck" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="po" id="proj-p2" onclick="selP('p2')"><div class="pic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div><div><div class="pid">CCT-PJ-005</div><div class="pmd">Epson EB-L520U</div></div></div>
+        <div class="po" id="proj-p3" onclick="selP('p3')"><div class="pic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div><div><div class="pid">CCT-PJ-012</div><div class="pmd">Sony VPL-FHZ75</div></div></div>
+        <div class="po" id="proj-p4" onclick="selP('p4')"><div class="pic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div><div><div class="pid">CCT-PJ-018</div><div class="pmd">Epson Pro G7905U</div></div></div>
+      </div>
+      <div class="its"><h4>Itens Adicionais</h4><div class="itw"><input type="text" placeholder="Ex: Cabo HDMI, Controle..."></div><div class="iht">Certifique-se de testar os itens antes da entrega.</div></div>
+      <div class="aud"><svg class="auc" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><div><div class="aut">Aviso de Auditoria</div><div class="aux">Este registro será vinculado à biometria do Dr. Ricardo Teixeira. Devolução até 22h30.</div></div></div>
+      <div class="cas"><button class="bcf" onclick="finLoan()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Confirmar Empréstimo</button><button class="bca" onclick="navigate('balcao')">Cancelar</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- RELATÓRIOS -->
+<div id="page-relatorios" class="pg">
+  <div class="ph"><div><h2>Relatórios</h2><p>Análises de empréstimos e uso de equipamentos.</p></div><button class="bp" style="width:auto;padding:9px 18px;letter-spacing:0" onclick="expCSV()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar Tudo</button></div>
+  <div class="sg"><div class="sc"><div class="scl">EMPRÉSTIMOS/MÊS</div><div class="scv">347</div><div class="scm up">↑ 8% vs mês anterior</div></div><div class="sc"><div class="scl">NO PRAZO</div><div class="scv gn">94%</div><div class="scm">329 de 347</div></div><div class="sc"><div class="scl">ATRASOS</div><div class="scv rd">18</div><div class="scm dn">5,2% do total</div></div><div class="sc"><div class="scl">HORA DE PICO</div><div class="scv tl">08h–10h</div><div class="scm">Maior demanda</div></div></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+    <div class="card"><div class="ch"><h3>Por Departamento</h3></div><div class="cb" style="display:flex;flex-direction:column;gap:12px">
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px"><span>Ciência da Computação</span><span style="font-weight:700">89</span></div><div class="pb2"><div class="pf" style="width:89%;background:var(--nv)"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px"><span>Engenharia Avançada</span><span style="font-weight:700">73</span></div><div class="pb2"><div class="pf" style="width:73%;background:#0891b2"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px"><span>Pós-Graduação CCT</span><span style="font-weight:700">61</span></div><div class="pb2"><div class="pf" style="width:61%;background:var(--gd)"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px"><span>Sistemas de Informação</span><span style="font-weight:700">45</span></div><div class="pb2"><div class="pf" style="width:45%;background:var(--ok)"></div></div></div>
+    </div></div>
+    <div class="card"><div class="ch"><h3>Por Modelo</h3></div><div class="cb" style="display:flex;flex-direction:column;gap:12px">
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px"><span>Epson Pro G7905U</span><span style="font-weight:700">42%</span></div><div class="pb2"><div class="pf" style="width:42%;background:var(--nv)"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px"><span>Sony VPL-FHZ75</span><span style="font-weight:700">28%</span></div><div class="pb2"><div class="pf" style="width:28%;background:#4f46e5"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px"><span>Epson EB-L520U</span><span style="font-weight:700">18%</span></div><div class="pb2"><div class="pf" style="width:18%;background:#0891b2"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px"><span>Panasonic PT-RZ970</span><span style="font-weight:700">12%</span></div><div class="pb2"><div class="pf" style="width:12%;background:var(--gd)"></div></div></div>
+    </div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+    <div class="card"><div class="ch"><h3>🏆 Professores que Mais Usam</h3></div><div class="cb" style="display:flex;flex-direction:column;gap:11px">
+      <div style="display:flex;align-items:center;gap:10px"><div class="ui" style="background:#4f46e5;width:34px;height:34px;border-radius:50%;flex-shrink:0;font-size:11px">ER</div><div style="flex:1"><div style="font-size:13px;font-weight:700">Dra. Elena Rodriguez</div><div class="pb2" style="margin-top:4px"><div class="pf" style="width:96%;background:#4f46e5"></div></div></div><span style="font-weight:800;color:var(--nv);font-size:14px;flex-shrink:0">24</span></div>
+      <div style="display:flex;align-items:center;gap:10px"><div class="ui" style="background:#0891b2;width:34px;height:34px;border-radius:50%;flex-shrink:0;font-size:11px">JS</div><div style="flex:1"><div style="font-size:13px;font-weight:700">Prof. James Sterling</div><div class="pb2" style="margin-top:4px"><div class="pf" style="width:79%;background:#0891b2"></div></div></div><span style="font-weight:800;color:var(--nv);font-size:14px;flex-shrink:0">19</span></div>
+      <div style="display:flex;align-items:center;gap:10px"><div class="ui" style="background:#6b7280;width:34px;height:34px;border-radius:50%;flex-shrink:0;font-size:11px">MW</div><div style="flex:1"><div style="font-size:13px;font-weight:700">Dr. Marcus Webb</div><div class="pb2" style="margin-top:4px"><div class="pf" style="width:63%;background:#6b7280"></div></div></div><span style="font-weight:800;color:var(--nv);font-size:14px;flex-shrink:0">15</span></div>
+      <div style="display:flex;align-items:center;gap:10px"><div class="ui" style="background:#d97706;width:34px;height:34px;border-radius:50%;flex-shrink:0;font-size:11px">AH</div><div style="flex:1"><div style="font-size:13px;font-weight:700">Prof. Alice Huang</div><div class="pb2" style="margin-top:4px"><div class="pf" style="width:46%;background:#d97706"></div></div></div><span style="font-weight:800;color:var(--nv);font-size:14px;flex-shrink:0">11</span></div>
+      <div style="display:flex;align-items:center;gap:10px"><div class="ui" style="background:#16a34a;width:34px;height:34px;border-radius:50%;flex-shrink:0;font-size:11px">BF</div><div style="flex:1"><div style="font-size:13px;font-weight:700">Dr. Bruno Faria</div><div class="pb2" style="margin-top:4px"><div class="pf" style="width:38%;background:#16a34a"></div></div></div><span style="font-weight:800;color:var(--nv);font-size:14px;flex-shrink:0">9</span></div>
+    </div></div>
+    <div class="card"><div class="ch"><h3>⏰ Horários Mais Usados</h3></div><div class="cb" style="display:flex;flex-direction:column;gap:11px">
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px"><span style="font-weight:600">08h – 10h</span><span style="font-weight:700;color:var(--nv)">98 aluguéis <span style="font-size:10px;background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:10px;font-weight:700">PICO</span></span></div><div class="pb2"><div class="pf" style="width:98%;background:var(--nv)"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px"><span style="font-weight:600">10h – 12h</span><span style="font-weight:700">74 aluguéis</span></div><div class="pb2"><div class="pf" style="width:74%;background:#0891b2"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px"><span style="font-weight:600">14h – 16h</span><span style="font-weight:700">61 aluguéis</span></div><div class="pb2"><div class="pf" style="width:61%;background:#4f46e5"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px"><span style="font-weight:600">16h – 18h</span><span style="font-weight:700">45 aluguéis</span></div><div class="pb2"><div class="pf" style="width:45%;background:var(--gd)"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px"><span style="font-weight:600">12h – 14h</span><span style="font-weight:700">29 aluguéis</span></div><div class="pb2"><div class="pf" style="width:29%;background:var(--ok)"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px"><span style="font-weight:600">18h – 22h</span><span style="font-weight:700">18 aluguéis</span></div><div class="pb2"><div class="pf" style="width:18%;background:#6b7280"></div></div></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- CONFIGURAÇÕES -->
+<div id="page-configuracoes" class="pg">
+  <div class="ph"><div><h2>Configurações</h2><p>Personalize o sistema de acordo com suas preferências.</p></div></div>
+  <div class="stg">
+    <div class="stn">
+      <div class="stni ac" onclick="stTab('conta',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>&nbsp;Conta</div>
+      <div class="stni" onclick="stTab('notif',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>&nbsp;Notificações</div>
+      <div class="stni" onclick="stTab('seg',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>&nbsp;Segurança</div>
+      <div class="stni" onclick="stTab('sis',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>&nbsp;Sistema</div>
+    </div>
+    <div class="stp">
+      <div id="st-conta">
+        <div class="sts"><h4>Informações da Conta</h4>
+          <div class="mfg"><label>Nome completo</label><input type="text" id="cfg-nm" value="Admin Projetores"></div>
+          <div class="mfg"><label>E-mail institucional</label><input type="text" id="cfg-em" value="admin@unifor.edu.br"></div>
+          <div class="mfg"><label>Departamento</label><input type="text" id="cfg-dp" value="Departamento CCT"></div>
+          <div class="mfg"><label>Cargo</label><input type="text" id="cfg-cg" value="Administrador de Sistemas"></div>
+          <button class="bp" style="width:auto;padding:10px 20px;letter-spacing:0;margin-top:8px" onclick="saveAcc()">Salvar Alterações</button>
+        </div>
+      </div>
+      <div id="st-notif" style="display:none">
+        <div class="sts"><h4>Preferências de Notificação</h4>
+          <div class="tgr"><div><div class="tgi">Empréstimos atrasados</div><div class="tgs">Alerta quando professor não devolver no prazo</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+          <div class="tgr"><div><div class="tgi">Novos empréstimos</div><div class="tgs">Notificação a cada novo empréstimo</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+          <div class="tgr"><div><div class="tgi">Alertas de manutenção</div><div class="tgs">Aviso quando projetor entrar em manutenção</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+          <div class="tgr"><div><div class="tgi">Relatórios semanais</div><div class="tgs">Resumo toda segunda por e-mail</div></div><button class="tog" onclick="this.classList.toggle('on')"></button></div>
+          <div class="tgr"><div><div class="tgi">Notificações por SMS</div><div class="tgs">Alertas críticos por mensagem</div></div><button class="tog" onclick="this.classList.toggle('on')"></button></div>
+          <button class="bp" style="width:auto;padding:10px 20px;letter-spacing:0;margin-top:16px" onclick="toast('Preferências de notificação salvas ✓','ok')">Salvar</button>
+        </div>
+      </div>
+      <div id="st-seg" style="display:none">
+        <div class="sts"><h4>Alterar Senha</h4>
+          <div class="mfg"><label>Senha atual</label><div class="iw"><input type="password" id="s-at" placeholder="••••••••"><button class="eye" onclick="tPass(this)" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+          <div class="mfg"><label>Nova senha</label><div class="iw"><input type="password" id="s-nv" placeholder="Mínimo 8 caracteres" oninput="chkStr(this.value)"><button class="eye" onclick="tPass(this)" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div><div id="str-bar" style="margin-top:5px;font-size:12px"></div></div>
+          <div class="mfg"><label>Confirmar nova senha</label><input type="password" id="s-cf" placeholder="Repita a nova senha"></div>
+          <button class="bp" style="width:auto;padding:10px 20px;letter-spacing:0;margin-top:8px" onclick="chgPass2()">Atualizar Senha</button>
+        </div>
+        <div class="sts"><h4>Autenticação de Dois Fatores</h4>
+          <div class="tgr"><div><div class="tgi">Ativar 2FA</div><div class="tgs">Aumenta a segurança com verificação dupla</div></div><button class="tog" onclick="this.classList.toggle('on');toast('2FA '+(this.classList.contains('on')?'ativado ✓':'desativado'),'ok')"></button></div>
+        </div>
+        <div class="sts"><h4>Sessões Ativas</h4>
+          <div style="background:var(--bg);border-radius:8px;padding:14px;display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:8px"><div><div style="font-weight:600">Chrome – Windows 11</div><div style="color:var(--mu);margin-top:2px">Fortaleza, CE · Sessão atual</div></div><span style="color:var(--ok);font-size:12px;font-weight:700">● Ativo</span></div>
+          <button class="bg2" style="width:auto;padding:8px 16px;font-size:13px;margin-top:4px" onclick="toast('Todas as outras sessões encerradas','ok')">Encerrar outras sessões</button>
+        </div>
+      </div>
+      <div id="st-sis" style="display:none">
+        <div class="sts"><h4>Preferências Visuais</h4>
+          <div class="tgr"><div><div class="tgi">Modo escuro</div><div class="tgs">Alterna para tema escuro (experimental)</div></div><button class="tog" onclick="togDark(this)"></button></div>
+          <div class="tgr"><div><div class="tgi">Animações da interface</div><div class="tgs">Ativar transições e animações visuais</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+        </div>
+        <div class="sts"><h4>Idioma e Região</h4>
+          <div class="mfg"><label>Idioma</label><select><option>Português (Brasil)</option><option>English</option><option>Español</option></select></div>
+          <div class="mfg"><label>Fuso horário</label><select><option>America/Fortaleza (UTC-3)</option><option>America/Sao_Paulo (UTC-3)</option><option>UTC</option></select></div>
+          <button class="bp" style="width:auto;padding:10px 20px;letter-spacing:0;margin-top:8px" onclick="toast('Configurações salvas ✓','ok')">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STATUS -->
+<div id="page-status" class="pg">
+  <div class="ph"><div><h2>Status do Sistema</h2><p>Monitoramento em tempo real dos serviços CCT.</p></div><span style="background:#dcfce7;color:var(--ok);padding:6px 14px;border-radius:20px;font-size:13px;font-weight:700">● Todos operacionais</span></div>
+  <div class="svg">
+    <div class="svi"><div class="svd ok"></div><div><div class="svn">Banco de Dados</div><div class="svs">PostgreSQL · 100% uptime</div></div></div>
+    <div class="svi"><div class="svd ok"></div><div><div class="svn">Scanner Biométrico</div><div class="svs">Scanner #1 e #2 online</div></div></div>
+    <div class="svi"><div class="svd ok"></div><div><div class="svn">API de Autenticação</div><div class="svs">Resposta: 42ms</div></div></div>
+    <div class="svi"><div class="svd wn"></div><div><div class="svn">Backup Automático</div><div class="svs">Último backup: 4h atrás</div></div></div>
+    <div class="svi"><div class="svd ok"></div><div><div class="svn">Servidor de E-mail</div><div class="svs">SMTP · Operacional</div></div></div>
+    <div class="svi"><div class="svd ok"></div><div><div class="svn">Sistema de Arquivos</div><div class="svs">Uso: 34% · 2.1TB livres</div></div></div>
+  </div>
+  <div class="card"><div class="ch"><h3>Log de Eventos Recentes</h3><button class="aib" onclick="toast('Log exportado ✓','ok')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button></div>
+  <div class="cb" style="padding:0"><table class="tbl"><thead><tr><th>HORÁRIO</th><th>EVENTO</th><th>USUÁRIO</th><th>NÍVEL</th></tr></thead>
+  <tbody>
+    <tr><td style="color:var(--mu);font-size:12px">Hoje 14:32</td><td>Login realizado com sucesso</td><td>admin</td><td><span class="tag ok">INFO</span></td></tr>
+    <tr><td style="color:var(--mu);font-size:12px">Hoje 13:15</td><td>Empréstimo CCT-PJ-001 registrado</td><td>admin</td><td><span class="tag ok">INFO</span></td></tr>
+    <tr><td style="color:var(--mu);font-size:12px">Hoje 12:08</td><td>Devolução atrasada — EPS-200-098</td><td>sistema</td><td><span class="tag lt">ALERTA</span></td></tr>
+    <tr><td style="color:var(--mu);font-size:12px">Hoje 11:44</td><td>CCT-PJ-109 em manutenção</td><td>admin</td><td><span class="tag mn">AVISO</span></td></tr>
+  </tbody></table></div></div>
+</div>
+
+<!-- AJUDA -->
+<div id="page-ajuda" class="pg">
+  <div class="ph"><div><h2>Central de Ajuda</h2><p>Encontre respostas e suporte para o sistema CCT.</p></div></div>
+  <div class="hgr" style="margin-bottom:20px">
+    <div class="hc" onclick="openM('m-haj1')"><div class="hci"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--nv)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><h4>Registrar Empréstimo</h4><p>Como realizar um empréstimo com ou sem biometria.</p></div>
+    <div class="hc" onclick="openM('m-haj2')"><div class="hci"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--nv)" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><h4>Gerenciar Inventário</h4><p>Adicionar, editar e remover projetores do sistema.</p></div>
+    <div class="hc" onclick="openM('m-haj3')"><div class="hci"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--nv)" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><h4>Relatórios e Exportações</h4><p>Como gerar e exportar relatórios em CSV.</p></div>
+    <div class="hc" onclick="openM('m-sup')"><div class="hci"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--nv)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h4>Contato com Suporte</h4><p>Fale diretamente com a equipe técnica do CCT.</p></div>
+  </div>
+  <div class="card"><div class="ch"><h3>Perguntas Frequentes</h3></div><div class="cb" style="padding:0">
+    <div style="border-bottom:1px solid var(--bd)"><div style="padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;font-size:14px;font-weight:600" onclick="togFaq(this)">Como cadastrar um novo professor? <span>+</span></div><div style="display:none;padding:0 16px 14px;font-size:13px;color:var(--mu);line-height:1.6">Professores são cadastrados via integração com o sistema acadêmico. Para cadastros manuais, contate o administrador com a matrícula do professor.</div></div>
+    <div style="border-bottom:1px solid var(--bd)"><div style="padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;font-size:14px;font-weight:600" onclick="togFaq(this)">Professor não consegue fazer leitura biométrica? <span>+</span></div><div style="display:none;padding:0 16px 14px;font-size:13px;color:var(--mu);line-height:1.6">Use o botão "Simular Leitura (Dev)" no Balcão ou registre manualmente pelo modal de Novo Empréstimo. Acione a TI para recadastrar a biometria.</div></div>
+    <div style="border-bottom:1px solid var(--bd)"><div style="padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;font-size:14px;font-weight:600" onclick="togFaq(this)">Como marcar projetor para manutenção? <span>+</span></div><div style="display:none;padding:0 16px 14px;font-size:13px;color:var(--mu);line-height:1.6">No Inventário, clique no ícone de chave inglesa ao lado do projetor. O status muda automaticamente para "Manutenção".</div></div>
+    <div><div style="padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;font-size:14px;font-weight:600" onclick="togFaq(this)">Como exportar o relatório mensal? <span>+</span></div><div style="display:none;padding:0 16px 14px;font-size:13px;color:var(--mu);line-height:1.6">Acesse Relatórios, selecione o período e clique em "Exportar Tudo". O arquivo CSV será baixado automaticamente.</div></div>
+  </div></div>
+</div>
+
+</main></div></div></div>
+
+<!-- ===== MODALS ===== -->
+<div class="mov hid" id="m-frg"><div class="mod"><h3>Recuperar Senha</h3><div class="ms">Informe seu e-mail institucional e enviaremos um link de redefinição.</div><div class="mfg"><label>E-mail institucional</label><input type="text" placeholder="usuario@unifor.edu.br"></div><div class="mas"><button class="bg2" onclick="closeM('m-frg')">Cancelar</button><button class="bp" onclick="closeM('m-frg');toast('Link de recuperação enviado ✓','ok')">Enviar Link</button></div></div></div>
+
+<div class="mov hid" id="m-sim"><div class="mod"><h3>Simular Perfil</h3><div class="ms">Selecione um perfil para visualizar com diferentes permissões.</div><div class="mfg"><label>Perfil</label><select id="sim-p"><option>Admin Projetores – Acesso total</option><option>Coordenador CCT – Relatórios e inventário</option><option>Atendente – Somente balcão</option></select></div><div class="mas"><button class="bg2" onclick="closeM('m-sim')">Cancelar</button><button class="bp" onclick="closeM('m-sim');doLogin()">Simular</button></div></div></div>
+
+<div class="mov hid" id="m-sup"><div class="mod"><h3>Suporte Técnico CCT</h3><div class="ms">Disponível de segunda a sexta, 7h–22h.</div>
+  <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
+    <div style="background:var(--bg);border-radius:8px;padding:13px;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="toast('Abrindo e-mail de suporte','')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--nv)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><div><div style="font-weight:700;font-size:14px">E-mail</div><div style="font-size:13px;color:var(--mu)">suporte.cct@unifor.edu.br</div></div></div>
+    <div style="background:var(--bg);border-radius:8px;padding:13px;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="toast('Ligando (85) 3477-3000','')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--nv)" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.17 3.34a2 2 0 0 1 1.99-2.17h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.58-.58a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg><div><div style="font-weight:700;font-size:14px">Telefone</div><div style="font-size:13px;color:var(--mu)">(85) 3477-3000 ramal 2202</div></div></div>
+  </div>
+  <div class="mfg"><label>Mensagem</label><textarea placeholder="Descreva seu problema ou dúvida..."></textarea></div>
+  <div class="mas"><button class="bg2" onclick="closeM('m-sup')">Fechar</button><button class="bp" onclick="closeM('m-sup');toast('Mensagem enviada à equipe ✓','ok')">Enviar</button></div>
+</div></div>
+
+<div class="mov hid" id="m-nl"><div class="mod"><h3>Novo Empréstimo</h3><div class="ms">Registre um empréstimo sem biometria.</div>
+  <div class="mfg"><label>Professor</label><input type="text" id="nl-p" placeholder="Nome completo"></div>
+  <div class="mfg"><label>Matrícula</label><input type="text" placeholder="#UNIF-0000-00"></div>
+  <div class="mfg"><label>Projetor</label><select><option>CCT-PJ-001 — Epson Pro G7905U</option><option>CCT-PJ-005 — Epson EB-L520U</option><option>CCT-PJ-012 — Sony VPL-FHZ75</option><option>CCT-PJ-018 — Epson Pro G7905U</option></select></div>
+  <div class="mfg"><label>Previsão de devolução</label><input type="datetime-local"></div>
+  <div class="mas"><button class="bg2" onclick="closeM('m-nl')">Cancelar</button><button class="bp" onclick="svNL()">Confirmar Empréstimo</button></div>
+</div></div>
+
+<div class="mov hid" id="m-np"><div class="mod"><h3>Cadastrar Novo Projetor</h3><div class="ms">Adicione um equipamento ao inventário.</div>
+  <div class="mfg"><label>ID / Código de Barras</label><input type="text" id="np-id" placeholder="CCT-PJ-000"></div>
+  <div class="mfg"><label>Modelo</label><select id="np-mo"><option>Epson Pro G7905U</option><option>Sony VPL-FHZ75</option><option>Panasonic PT-RZ970</option><option>Epson EB-L520U</option></select></div>
+  <div class="mfg"><label>Data de aquisição</label><input type="date"></div>
+  <div class="mfg"><label>Status inicial</label><select id="np-st"><option value="disponivel">Disponível</option><option value="manutencao">Em Manutenção</option></select></div>
+  <div class="mfg"><label>Localização</label><input type="text" placeholder="Bloco A, Sala 204"></div>
+  <div class="mas"><button class="bg2" onclick="closeM('m-np')">Cancelar</button><button class="bp" onclick="svNP()">Cadastrar</button></div>
+</div></div>
+
+<div class="mov hid" id="m-ep"><div class="mod"><h3>Editar Projetor</h3><div class="ms">Atualize as informações do equipamento.</div>
+  <div class="mfg"><label>ID</label><input type="text" id="ep-id" readonly style="background:var(--bg)"></div>
+  <div class="mfg"><label>Modelo</label><input type="text" id="ep-mo"></div>
+  <div class="mfg"><label>Status</label><select id="ep-st"><option value="disponivel">Disponível</option><option value="emprestado">Emprestado</option><option value="manutencao">Manutenção</option></select></div>
+  <div class="mfg"><label>Último responsável</label><input type="text" id="ep-ls"></div>
+  <div class="mas"><button class="bg2" onclick="closeM('m-ep')">Cancelar</button><button class="bp" onclick="svEP()">Salvar</button></div>
+</div></div>
+
+<div class="mov hid" id="m-prf"><div class="mod"><h3>Meu Perfil</h3><div class="ms">Visualize e atualize suas informações pessoais.</div>
+  <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;background:var(--bg);padding:16px;border-radius:10px">
+    <div style="width:56px;height:56px;border-radius:50%;background:var(--nv);display:flex;align-items:center;justify-content:center;color:white;font-size:22px;font-weight:700" id="prf-av">A</div>
+    <div><div style="font-size:16px;font-weight:700" id="prf-nm">Admin Projetores</div><div style="font-size:13px;color:var(--mu)">admin@unifor.edu.br</div><div style="font-size:12px;color:var(--ok);margin-top:3px;font-weight:600">● Online</div></div>
+  </div>
+  <div class="mfg"><label>Nome</label><input type="text" id="pf-n" value="Admin Projetores"></div>
+  <div class="mfg"><label>Cargo</label><input type="text" value="Administrador CCT"></div>
+  <div class="mfg"><label>Telefone</label><input type="text" placeholder="(85) 00000-0000"></div>
+  <div class="mas"><button class="bg2" onclick="closeM('m-prf')">Fechar</button><button class="bp" onclick="svPrf()">Salvar</button></div>
+</div></div>
+
+<div class="mov hid" id="m-cp"><div class="mod"><h3>Trocar Senha</h3><div class="ms">Por segurança, informe sua senha atual antes de criar uma nova.</div>
+  <div class="mfg"><label>Senha atual</label><div class="iw"><input type="password" id="cp-at" placeholder="••••••••"><button class="eye" onclick="tPass(this)" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+  <div class="mfg"><label>Nova senha</label><div class="iw"><input type="password" id="cp-nv" placeholder="Mínimo 8 caracteres" oninput="chkStr(this.value,'cp-str')"><button class="eye" onclick="tPass(this)" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div><div id="cp-str" style="margin-top:5px;font-size:12px"></div></div>
+  <div class="mfg"><label>Confirmar nova senha</label><input type="password" id="cp-cf" placeholder="Repita a nova senha"></div>
+  <div class="mas"><button class="bg2" onclick="closeM('m-cp')">Cancelar</button><button class="bp" onclick="chgPassM()">Atualizar Senha</button></div>
+</div></div>
+
+<div class="mov hid" id="m-all"><div class="mod" style="max-width:600px"><h3>Todos os Empréstimos Ativos</h3><div class="ms">4 empréstimos em andamento.</div>
+  <table class="tbl"><thead><tr><th>PROFESSOR</th><th>PROJETOR</th><th>STATUS</th><th>AÇÃO</th></tr></thead>
+  <tbody>
+    <tr><td>Dra. Elena Rodriguez</td><td>SNY-75-012</td><td><span class="tag rs">2h</span></td><td><button class="bc2" onclick="confRet('SNY-75-012','Dra. Elena Rodriguez');closeM('m-all')">Devolver</button></td></tr>
+    <tr><td>Prof. James Wilson</td><td>EPS-200-098</td><td><span class="tag lt">Atrasado</span></td><td><button class="bc2" onclick="confRet('EPS-200-098','Prof. James Wilson');closeM('m-all')">Devolver</button></td></tr>
+    <tr><td>Dra. Sarah Chen</td><td>OPT-403-221</td><td><span class="tag ac">15min</span></td><td><button class="bc2" onclick="confRet('OPT-403-221','Dra. Sarah Chen');closeM('m-all')">Devolver</button></td></tr>
+    <tr><td>Prof. Carlos Mendes</td><td>PAN-970-006</td><td><span class="tag rs">4h</span></td><td><button class="bc2" onclick="confRet('PAN-970-006','Prof. Carlos Mendes');closeM('m-all')">Devolver</button></td></tr>
+  </tbody></table>
+  <div class="mas"><button class="bg2" onclick="closeM('m-all')">Fechar</button></div>
+</div></div>
+
+<div class="mov hid" id="m-fil"><div class="mod"><h3>Filtrar Dados</h3><div class="ms">Refine os dados exibidos.</div>
+  <div class="mfg"><label>Status</label><select><option>Todos</option><option>Concluído</option><option>Ativo</option><option>Sinalizado</option></select></div>
+  <div class="mfg"><label>Período</label><select><option>Últimos 7 dias</option><option>Últimos 30 dias</option><option>Este mês</option><option>Este ano</option></select></div>
+  <div class="mas"><button class="bg2" onclick="closeM('m-fil')">Cancelar</button><button class="bp" onclick="closeM('m-fil');toast('Filtro aplicado ✓','')">Aplicar</button></div>
+</div></div>
+
+<div class="mov hid" id="m-frq"><div class="mod" style="max-width:560px"><h3>Usuários Frequentes</h3><div class="ms">Top professores com mais empréstimos no mês.</div>
+  <table class="tbl"><thead><tr><th>#</th><th>PROFESSOR</th><th>DEPARTAMENTO</th><th>ALUGUÉIS</th></tr></thead>
+  <tbody><tr><td>1</td><td>Dra. Elena Rodriguez</td><td>Ciência da Computação</td><td style="font-weight:700">24</td></tr><tr><td>2</td><td>Prof. James Sterling</td><td>Engenharia Avançada</td><td style="font-weight:700">19</td></tr><tr><td>3</td><td>Dr. Marcus Webb</td><td>Pós-Graduação CCT</td><td style="font-weight:700">15</td></tr><tr><td>4</td><td>Prof. Alice Huang</td><td>Sistemas de Informação</td><td style="font-weight:700">11</td></tr><tr><td>5</td><td>Dr. Bruno Faria</td><td>Computação</td><td style="font-weight:700">9</td></tr></tbody></table>
+  <div class="mas"><button class="bp" onclick="closeM('m-frq')">Fechar</button></div>
+</div></div>
+
+<div class="mov hid" id="m-prv"><div class="mod"><h3>Política de Privacidade</h3><div class="ms">Unifor CCT — Gestão de Projetores</div><p style="font-size:13px;color:var(--mu);line-height:1.7">Este sistema coleta dados biométricos e pessoais exclusivamente para controle de empréstimos, em conformidade com a LGPD. Os dados biométricos são armazenados de forma criptografada e jamais compartilhados com terceiros.</p><div class="mas"><button class="bp" onclick="closeM('m-prv')">Entendido</button></div></div></div>
+
+<div class="mov hid" id="m-trm"><div class="mod"><h3>Termos de Serviço</h3><div class="ms">Condições de uso do sistema CCT</div><p style="font-size:13px;color:var(--mu);line-height:1.7">O uso deste sistema é restrito a colaboradores autorizados da Unifor. É proibido compartilhar credenciais. O uso indevido está sujeito às sanções previstas no regimento interno da universidade.</p><div class="mas"><button class="bp" onclick="closeM('m-trm')">Entendido</button></div></div></div>
+
+<div class="mov hid" id="m-haj1"><div class="mod"><h3>Como Registrar Empréstimo</h3><div class="ms">Passo a passo para realizar um empréstimo.</div><div style="display:flex;flex-direction:column;gap:12px;font-size:14px;line-height:1.6;color:var(--mu)"><div><strong style="color:var(--tx)">1. Com Biometria:</strong> Acesse o Balcão, aguarde o professor posicionar o dedo e confirme o projetor.</div><div><strong style="color:var(--tx)">2. Sem Biometria:</strong> Clique em "Novo Empréstimo" na barra lateral, preencha os dados e confirme.</div><div><strong style="color:var(--tx)">3. Prazo:</strong> O prazo padrão é até 22h30 do dia útil corrente.</div></div><div class="mas"><button class="bp" onclick="closeM('m-haj1')">Entendido</button></div></div></div>
+
+<div class="mov hid" id="m-haj2"><div class="mod"><h3>Gerenciar Inventário</h3><div class="ms">Como adicionar, editar e remover projetores.</div><div style="display:flex;flex-direction:column;gap:12px;font-size:14px;line-height:1.6;color:var(--mu)"><div><strong style="color:var(--tx)">Adicionar:</strong> Clique em "Cadastrar Projetor" no topo da página de Inventário.</div><div><strong style="color:var(--tx)">Editar:</strong> Clique no ícone de lápis ao lado do projetor na tabela.</div><div><strong style="color:var(--tx)">Manutenção:</strong> Clique no ícone de chave inglesa para marcar o projetor como em manutenção.</div></div><div class="mas"><button class="bp" onclick="closeM('m-haj2')">Entendido</button></div></div></div>
+
+<div class="mov hid" id="m-haj3"><div class="mod"><h3>Relatórios e Exportações</h3><div class="ms">Como gerar relatórios em CSV.</div><p style="font-size:14px;line-height:1.7;color:var(--mu)">Acesse <strong style="color:var(--tx)">Relatórios</strong> na barra lateral, selecione o período e clique em <strong style="color:var(--tx)">"Exportar Tudo"</strong> para baixar o arquivo CSV. Compatível com Excel, Google Sheets e LibreOffice.</p><div class="mas"><button class="bp" onclick="closeM('m-haj3')">Entendido</button></div></div></div>
+
+<!-- TOAST AREA -->
+<div class="ta" id="ta"></div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────
+const INV=[
+  {id:'CCT-PJ-001',m:'Epson Pro G7905U',s:'disponivel',l:'Dr. Arnaldo Silva'},
+  {id:'CCT-PJ-042',m:'Sony VPL-FHZ75',s:'emprestado',l:'Prof. Maria Cavalcante'},
+  {id:'CCT-PJ-109',m:'Panasonic PT-RZ970',s:'manutencao',l:'N/A (Oficina CCT)'},
+  {id:'CCT-PJ-088',m:'Epson Pro G7905U',s:'disponivel',l:'Prof. Carlos Mendes'},
+  {id:'CCT-PJ-015',m:'Sony VPL-FHZ75',s:'emprestado',l:'Dr. Helena Souza'},
+  {id:'CCT-PJ-033',m:'Epson EB-L520U',s:'disponivel',l:'Prof. Ana Lima'},
+  {id:'CCT-PJ-077',m:'Panasonic PT-RZ970',s:'manutencao',l:'N/A (Oficina CCT)'},
+  {id:'CCT-PJ-055',m:'Epson Pro G7905U',s:'disponivel',l:'Dr. Bruno Faria'},
+];
+const SD=[
+  {n:'CCT-PJ-001',t:'Projetor · Disponível',p:'inventario'},
+  {n:'CCT-PJ-042',t:'Projetor · Emprestado',p:'inventario'},
+  {n:'Dra. Elena Rodriguez',t:'Professor · Ativo',p:'balcao'},
+  {n:'Prof. James Wilson',t:'Professor · Atrasado',p:'balcao'},
+  {n:'Epson Pro G7905U',t:'Modelo de projetor',p:'inventario'},
+  {n:'Relatórios',t:'Página',p:'relatorios'},
+  {n:'Configurações',t:'Página',p:'configuracoes'},
+  {n:'Status do Sistema',t:'Página',p:'status'},
+];
+let fd=[...INV],fS='',fM='',pg=1;const PS=5;
+
+// ── TOAST ──────────────────────────────────────────────
+function toast(msg,type){
+  const a=document.getElementById('ta');
+  const t=document.createElement('div');
+  t.className='toast'+(type?' '+type:'');
+  t.textContent=msg;t.onclick=()=>t.remove();
+  a.appendChild(t);setTimeout(()=>t.remove(),3500);
+}
+
+// ── LOGIN ──────────────────────────────────────────────
+function doLogin(){
+  const u=document.getElementById('l-u').value.trim();
+  const p=document.getElementById('l-p').value;
+  if(!u||!p){toast('Preencha usuário e senha','wn');return;}
+  const nm=u.charAt(0).toUpperCase()+u.slice(1);
+  document.getElementById('sl').classList.remove('active');
+  document.getElementById('sa').classList.add('active');
+  document.getElementById('sb-n').textContent=nm+' CCT';
+  document.getElementById('av-b').textContent=nm.charAt(0).toUpperCase();
+  document.getElementById('dd-n').textContent=nm+' CCT';
+  document.getElementById('prf-nm').textContent=nm+' CCT';
+  document.getElementById('prf-av').textContent=nm.charAt(0).toUpperCase();
+  toast('Bem-vindo, '+nm+'! ✓','ok');navigate('painel');
+}
+function doLogout(){
+  document.getElementById('sa').classList.remove('active');
+  document.getElementById('sl').classList.add('active');
+  toast('Sessão encerrada','');
+}
+function tPass(btn){
+  const i=btn.closest('.iw').querySelector('input');
+  i.type=i.type==='password'?'text':'password';
+}
+
+// ── NAVIGATION ─────────────────────────────────────────
+function navigate(p){
+  document.querySelectorAll('.pg').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('#nav-list li').forEach(l=>l.classList.remove('active'));
+  const pg=document.getElementById('page-'+p);
+  if(pg)pg.classList.add('active');
+  const nv=document.getElementById('nav-'+p);
+  if(nv)nv.classList.add('active');
+  if(p==='inventario')renderInv();
+  closeAllDD();mSB();
+}
+
+// ── SIDEBAR ────────────────────────────────────────────
+function tSB(){
+  document.getElementById('sb').classList.toggle('open');
+  document.getElementById('sbov').classList.toggle('active');
+}
+function mSB(){
+  if(window.innerWidth<=768){
+    document.getElementById('sb').classList.remove('open');
+    document.getElementById('sbov').classList.remove('active');
+  }
+}
+
+// ── INVENTORY ──────────────────────────────────────────
+function sLbl(s){
+  if(s==='disponivel')return'<span><span class="dot av"></span><span style="color:var(--ok);font-weight:600">Disponível</span></span>';
+  if(s==='emprestado')return'<span><span class="dot lo"></span><span style="color:var(--wn);font-weight:600">Emprestado</span></span>';
+  return'<span><span class="dot mn"></span><span style="color:var(--er);font-weight:600">Manutenção</span></span>';
+}
+function renderInv(){
+  fd=INV.filter(r=>(!fS||r.s===fS)&&(!fM||r.m.toLowerCase().includes(fM)));
+  const tot=fd.length,pages=Math.max(1,Math.ceil(tot/PS));
+  if(pg>pages)pg=pages;
+  const sl=fd.slice((pg-1)*PS,pg*PS);
+  document.getElementById('inv-cnt').textContent=tot+' itens';
+  document.getElementById('inv-pg').textContent='Página '+pg+' de '+pages;
+  document.getElementById('inv-tb').innerHTML=sl.map(r=>{
+    const i=INV.indexOf(r);
+    return`<tr><td style="font-weight:600">${r.id}</td><td>${r.m}</td><td>${sLbl(r.s)}</td><td>${r.l}</td>
+    <td><div style="display:flex;gap:4px">
+      <button class="aib" title="Editar" onclick="editP(${i})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+      <button class="aib" title="Manutenção" onclick="setMnt(${i})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></button>
+      <button class="aib" style="color:var(--er)" title="Excluir" onclick="delP(${i})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg></button>
+    </div></td></tr>`;
+  }).join('');
+}
+function filtInv(s,m){if(s!==null)fS=s||'';if(m!==null)fM=m||'';pg=1;renderInv();}
+function pgP(){if(pg>1){pg--;renderInv();}}
+function pgN(){const p=Math.ceil(fd.length/PS);if(pg<p){pg++;renderInv();}}
+function editP(i){const r=INV[i];document.getElementById('ep-id').value=r.id;document.getElementById('ep-mo').value=r.m;document.getElementById('ep-st').value=r.s;document.getElementById('ep-ls').value=r.l;window._ei=i;openM('m-ep');}
+function svEP(){if(window._ei!==undefined){INV[window._ei].m=document.getElementById('ep-mo').value;INV[window._ei].s=document.getElementById('ep-st').value;INV[window._ei].l=document.getElementById('ep-ls').value;renderInv();}closeM('m-ep');toast('Projetor atualizado ✓','ok');}
+function setMnt(i){INV[i].s='manutencao';renderInv();toast('Projetor '+INV[i].id+' em manutenção','wn');}
+function delP(i){if(confirm('Remover '+INV[i].id+' do inventário?')){INV.splice(i,1);renderInv();toast('Projetor removido','wn');}}
+function svNP(){const id=document.getElementById('np-id').value.trim();if(!id){toast('Informe o ID','wn');return;}INV.push({id:id,m:document.getElementById('np-mo').value,s:document.getElementById('np-st').value,l:'—'});closeM('m-np');renderInv();toast('Projetor '+id+' cadastrado ✓','ok');}
+
+// ── MODALS ─────────────────────────────────────────────
+function openM(id){document.getElementById(id).classList.remove('hid');}
+function closeM(id){document.getElementById(id).classList.add('hid');}
+document.querySelectorAll('.mov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.add('hid');}));
+
+// ── DROPDOWNS ──────────────────────────────────────────
+const DDS=['n-dd','p-dd'];
+function tDD(id){const was=!document.getElementById(id).classList.contains('hid');closeAllDD();if(!was)document.getElementById(id).classList.remove('hid');}
+function cDD(id){document.getElementById(id).classList.add('hid');}
+function closeAllDD(){DDS.forEach(id=>document.getElementById(id).classList.add('hid'));}
+document.addEventListener('click',e=>{if(!e.target.closest('.ddm')&&!e.target.closest('.ib')&&!e.target.closest('.avt'))closeAllDD();});
+
+// ── NOTIFICATIONS ──────────────────────────────────────
+function hN(n){closeAllDD();const m={1:'CCT-PJ-109 em manutenção — verifique no Inventário',2:'Prof. James Wilson com atraso no Balcão',3:'Devolução de Sarah Chen registrada',4:'Novo projetor CCT-PJ-050 adicionado'};toast(m[n]||'Notificação visualizada','');const c=document.getElementById('n-cnt');const v=parseInt(c.textContent)||0;if(v>0){const nv=Math.max(0,v-1);c.textContent=nv;if(nv===0)c.style.display='none';}}
+function markAll(){closeAllDD();document.getElementById('n-cnt').style.display='none';toast('Todas as notificações marcadas como lidas','ok');}
+
+// ── SEARCH ─────────────────────────────────────────────
+let srt;
+function doSrc(v){clearTimeout(srt);srt=setTimeout(()=>{const dd=document.getElementById('sr-dd');if(!v.trim()){dd.classList.add('hid');return;}const res=SD.filter(x=>x.n.toLowerCase().includes(v.toLowerCase()));dd.innerHTML=res.length?res.map(r=>`<div class="sri" onclick="navigate('${r.p}');document.getElementById('t-s').value='';hideSD()"><div class="sri-i"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--nv)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div><div class="sri-n">${r.n}</div><div class="sri-t">${r.t}</div></div></div>`).join(''):'<div class="sr0">Nenhum resultado para "'+v+'"</div>';dd.classList.remove('hid');},200);}
+function showSD(){if(document.getElementById('t-s').value.trim())document.getElementById('sr-dd').classList.remove('hid');}
+function hideSD(){document.getElementById('sr-dd').classList.add('hid');}
+
+// ── BIOMETRIA ──────────────────────────────────────────
+function simBio(){
+  const w=document.getElementById('biow');const c=document.getElementById('bio-card');
+  w.classList.add('sc');c.querySelector('h3').textContent='Lendo Biometria...';
+  c.querySelector('p').textContent='Processando impressão digital. Aguarde.';
+  setTimeout(()=>{w.classList.remove('sc');toast('Biometria validada — Dr. Ricardo Teixeira ✓','ok');navigate('confirmacao');
+  setTimeout(()=>{c.querySelector('h3').textContent='Aguardando Leitura Biométrica';c.querySelector('p').textContent='Peça ao professor para posicionar o dedo no scanner.';},600);},2000);
+}
+
+// ── CONFIRM ────────────────────────────────────────────
+function confRet(id,nm){if(confirm('Confirmar devolução de '+id+' por '+nm+'?')){toast('Devolução confirmada — '+nm+' ✓','ok');const c=document.getElementById('ac-cnt');const v=parseInt(c.textContent)||0;if(v>0)c.textContent=Math.max(0,v-1);}}
+function selP(id){document.querySelectorAll('.po').forEach(p=>{p.classList.remove('sel');const ck=p.querySelector('.ck');if(ck)ck.remove();});const el=document.getElementById('proj-'+id);el.classList.add('sel');const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.classList.add('ck');s.setAttribute('width','16');s.setAttribute('height','16');s.setAttribute('viewBox','0 0 24 24');s.setAttribute('fill','none');s.setAttribute('stroke','currentColor');s.setAttribute('stroke-width','2.5');s.innerHTML='<polyline points="20 6 9 17 4 12"/>';el.appendChild(s);}
+function finLoan(){
+  const nm='Dr. Ricardo Teixeira';
+  const projs={'p1':'CCT-PJ-001','p2':'CCT-PJ-005','p3':'CCT-PJ-012','p4':'CCT-PJ-018'};
+  const mods={'p1':'Epson Pro G7905U','p2':'Epson EB-L520U','p3':'Sony VPL-FHZ75','p4':'Epson Pro G7905U'};
+  const sel=document.querySelector('.po.sel');
+  const pid=sel?sel.id.replace('proj-',''):'p1';
+  const item=document.createElement('div');
+  item.className='li2';
+  item.innerHTML=`<div class="lit"><span class="lin">${nm}</span><span style="font-size:11px;color:var(--mu)">agora</span></div><div class="lid">${mods[pid]||'Epson Pro G7905U'}</div><div class="lib"><span class="liid">${projs[pid]||'CCT-PJ-001'}</span><button class="bc2" onclick="confRet('${projs[pid]||'CCT-PJ-001'}','${nm}');this.closest('.li2').remove()">Confirmar Devolução</button></div>`;
+  document.getElementById('lpl-list').prepend(item);
+  const c=document.getElementById('ac-cnt');
+  c.textContent=parseInt(c.textContent||0)+1;
+  toast('Empréstimo confirmado — '+nm+' ✓','ok');
+  setTimeout(()=>navigate('balcao'),700);
+}
+
+// ── SETTINGS ───────────────────────────────────────────
+function stTab(tab,el){['conta','notif','seg','sis'].forEach(t=>{document.getElementById('st-'+t).style.display='none';});document.getElementById('st-'+tab).style.display='block';document.querySelectorAll('.stni').forEach(i=>i.classList.remove('ac'));el.classList.add('ac');}
+function saveAcc(){const n=document.getElementById('cfg-nm').value;document.getElementById('sb-n').textContent=n;document.getElementById('dd-n').textContent=n;document.getElementById('av-b').textContent=n.charAt(0).toUpperCase();toast('Informações da conta salvas ✓','ok');}
+function chkStr(v,el){const id=el||'str-bar';const e=document.getElementById(id);if(!e)return;if(!v){e.textContent='';return;}let s=0;if(v.length>=8)s++;if(/[A-Z]/.test(v))s++;if(/[0-9]/.test(v))s++;if(/[^A-Za-z0-9]/.test(v))s++;const lbs=['','Fraca','Razoável','Boa','Forte'];const cs=['','var(--er)','var(--wn)','#2563eb','var(--ok)'];e.textContent='Força: '+lbs[s];e.style.color=cs[s];}
+function chgPass2(){const a=document.getElementById('s-at').value,n=document.getElementById('s-nv').value,c=document.getElementById('s-cf').value;if(!a){toast('Informe a senha atual','wn');return;}if(n.length<8){toast('Mínimo 8 caracteres','wn');return;}if(n!==c){toast('Senhas não conferem','wn');return;}document.getElementById('s-at').value='';document.getElementById('s-nv').value='';document.getElementById('s-cf').value='';document.getElementById('str-bar').textContent='';toast('Senha atualizada ✓','ok');}
+function togDark(btn){btn.classList.toggle('on');const on=btn.classList.contains('on');if(on){document.documentElement.style.setProperty('--bg','#111827');document.documentElement.style.setProperty('--wh','#1f2937');document.documentElement.style.setProperty('--bd','#374151');document.documentElement.style.setProperty('--tx','#f9fafb');toast('Modo escuro ativado','');}else{document.documentElement.style.setProperty('--bg','#f4f6fb');document.documentElement.style.setProperty('--wh','#ffffff');document.documentElement.style.setProperty('--bd','#e5e7eb');document.documentElement.style.setProperty('--tx','#1a1a2e');toast('Modo claro ativado','');}}
+
+// ── MISC ────────────────────────────────────────────────
+function setPer(btn,p){btn.closest('.prg').querySelectorAll('.prb').forEach(b=>b.classList.remove('active'));btn.classList.add('active');toast('Visualização: '+p,'');}
+function expCSV(){const rows=[['ID','Modelo','Status','Último Responsável'],...INV.map(r=>[r.id,r.m,r.s,r.l])];const csv=rows.map(r=>r.join(',')).join('\n');const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='inventario-cct.csv';a.click();toast('CSV exportado ✓','ok');}
+function svNL(){const p=document.getElementById('nl-p').value.trim();if(!p){toast('Informe o nome do professor','wn');return;}closeM('m-nl');toast('Empréstimo de '+p+' registrado ✓','ok');}
+function svPrf(){const n=document.getElementById('pf-n').value;document.getElementById('sb-n').textContent=n;document.getElementById('dd-n').textContent=n;document.getElementById('av-b').textContent=n.charAt(0).toUpperCase();document.getElementById('prf-nm').textContent=n;document.getElementById('prf-av').textContent=n.charAt(0).toUpperCase();closeM('m-prf');toast('Perfil atualizado ✓','ok');}
+function chgPassM(){const a=document.getElementById('cp-at').value,n=document.getElementById('cp-nv').value,c=document.getElementById('cp-cf').value;if(!a){toast('Informe a senha atual','wn');return;}if(n.length<8){toast('Mínimo 8 caracteres','wn');return;}if(n!==c){toast('Senhas não conferem','wn');return;}closeM('m-cp');toast('Senha alterada ✓','ok');}
+function togFaq(el){const a=el.nextElementSibling;const op=a.style.display==='block';a.style.display=op?'none':'block';el.querySelector('span').textContent=op?'+':'−';}
+
+// ── INIT ────────────────────────────────────────────────
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('sl').classList.contains('active'))doLogin();});
+renderInv();
+</script>
+</body>
+</html>
